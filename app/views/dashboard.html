@@ -1,0 +1,38 @@
+#{extends 'main.html' /}
+#{set title:'Dashboard' /}
+
+#{menu id:"dashboard"/}
+
+#{list items:stations, as:'station'}
+<div class="content box">
+  <h1 class="title is-danger">${station.name}</h1>
+  <div class="columns">
+    <div class="column"><div class="notification is-dark"><b>${station.name}</b><br><br><br></div></div>
+    <div class="column"><div class="notification is-dark"><b>Weather</b><br><br>${station.weather}</div></div>
+    <div class="column"><div class="notification is-dark"><b>Temp</b><br><br>${station.temp}</div></div>
+    <div class="column"><div class="notification is-dark"><b>Wind</b><br><br>${station.wind}</div></div>
+    <div class="column"><div class="notification is-dark"><b>Pressure</b><br><br>${station.pressure}</div></div>
+  </div>
+    <table>
+      <thead>
+      <tr>
+        <th>Code</th>
+        <th>Temp</th>
+        <th>Wind Speed</th>
+        <th>Pressure</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      #{list items:station.readings, as:'reading'}
+      <tr>
+        <td>${reading.code}</td>
+        <td>${reading.temperature}</td>
+        <td>${reading.windSpeed}</td>
+        <td>${reading.pressure}</td>
+      </tr>
+      #{/list}
+      </tbody>
+    </table>
+</div>
+#{/list}
