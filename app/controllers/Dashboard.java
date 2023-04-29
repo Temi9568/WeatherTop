@@ -11,9 +11,11 @@ public class Dashboard extends Controller {
 
 
     public static void index() {
+        if (!session.contains("logged_in_Memberid")) { redirect("/login");}
         Logger.info("Rendering Admin");
-        List<Station> stations = Station.findAll();
-        for (Station station: stations) {
+        Member member = Account.getCurrentMember();
+
+        for (Station station: member.stations) {
             if (station.readings.size() >= 1) {
                 Reading r = station.readings.get(station.readings.size() - 1);
                 station.weather = getWeather(r.code);
@@ -24,12 +26,15 @@ public class Dashboard extends Controller {
                 station.pressure = r.pressure;
             }
         }
+        member.save();
+        for (Station station: member.stations) {
+            System.out.println(station.name);
+        }
 
-        render("dashboard.html", stations);
+        render("dashboard.html", member);
     }
 
     public static void addReading(Long id, int code, float temperature, double windSpeed,  int windDirection, int pressure) {
-        System.out.println(id);
         Station station = Station.findById(id);
         Reading reading = new Reading(code, temperature, windSpeed, windDirection, pressure);
         station.readings.add(reading);
@@ -47,13 +52,18 @@ public class Dashboard extends Controller {
     }
 
     public static void addStation(String name) {
+        Member member = Account.getCurrentMember();
         Station station = new Station(name);
-        station.save();
+        member.stations.add(station);
+        member.save();
         redirect("/dashboard");
     }
 
     public static void deleteStation(Long id) {
+        Member member = Account.getCurrentMember();
         Station station = Station.findById(id);
+        member.stations.remove(station);
+        member.save();
         station.delete();
         redirect("/dashboard");
     }

@@ -1,0 +1,41 @@
+#{extends 'main.html' /}
+#{set title:'Login' /}
+
+#{welcomeMenu id:"login" /}
+
+<div class="columns is-centered">
+    <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+        <form action="/authenticate" class="box" method="POST">
+            <div class="field">
+                <label class="label">Email</label>
+                <div class="control has-icons-left">
+                    <input type="email" name="email" placeholder="e.g. bobsmith@gmail.com" class="input" required>
+                    <span class="icon is-small is-left">
+      <i class="fa fa-envelope"></i>
+    </span>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Password</label>
+                <div class="control has-icons-left">
+                    <input type="password" name="password" placeholder="*******" class="input" required>
+                    <span class="icon is-small is-left">
+      <i class="fa fa-lock"></i>
+    </span>
+                </div>
+            </div>
+            <div class="field">
+                <label class="checkbox">
+                    <input type="checkbox">
+                    Remember me
+                </label>
+            </div>
+            <div class="field">
+                <button class="button is-success">
+                    Login
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>

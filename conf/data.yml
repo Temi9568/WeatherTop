@@ -34,3 +34,13 @@ Station(s2):
   readings:
     - r3
     - r4
+
+
+Member(m1):
+  firstName: Temi
+  lastName: Ola
+  email: temi@k.com
+  password: jj1234
+  stations:
+    - s1
+    - s2
