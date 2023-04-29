@@ -5,34 +5,132 @@
 
 #{list items:stations, as:'station'}
 <div class="content box">
-  <h1 class="title is-danger">${station.name}</h1>
-  <div class="columns">
-    <div class="column"><div class="notification is-dark"><b>${station.name}</b><br><br><br></div></div>
-    <div class="column"><div class="notification is-dark"><b>Weather</b><br><br>${station.weather}</div></div>
-    <div class="column"><div class="notification is-dark"><b>Temp</b><br><br>${station.temp}</div></div>
-    <div class="column"><div class="notification is-dark"><b>Wind</b><br><br>${station.wind}</div></div>
-    <div class="column"><div class="notification is-dark"><b>Pressure</b><br><br>${station.pressure}</div></div>
-  </div>
-    <table>
-      <thead>
-      <tr>
-        <th>Code</th>
-        <th>Temp</th>
-        <th>Wind Speed</th>
-        <th>Pressure</th>
-      </tr>
-      </thead>
+    <div class="station header">
+        <h1 class="title is-danger" style="display: inline-block;">${station.name}</h1>
+        <form action="/dashboard/deleteStation/${station.id}" method="POST" style="float: right;">
+            <div class="field">
+                <div class="control">
+                    <button class="button is-link is-danger" type="submit">Delete ${station.name}</button>
+                </div>
+            </div>
+        </form>
+    </div>
 
-      <tbody>
-      #{list items:station.readings, as:'reading'}
-      <tr>
-        <td>${reading.code}</td>
-        <td>${reading.temperature}</td>
-        <td>${reading.windSpeed}</td>
-        <td>${reading.pressure}</td>
-      </tr>
-      #{/list}
-      </tbody>
+    <div class="columns">
+        <div class="column">
+            <div class="notification is-dark"><b>${station.name}</b><br><br><br><br><br><br></div>
+        </div>
+        <div class="column">
+            <div class="notification is-dark"><b>Weather</b><br><br>${station.weather}<br><br><br><br></div>
+        </div>
+        <div class="column">
+            <div class="notification is-dark"><b>Temp</b><br><br>${station.tempC}C<br>${station.tempF}F<br><br><br></div>
+        </div>
+        <div class="column">
+            <div class="notification is-dark"><b>Wind</b><br><br>${station.windBFT}bft<br>${station.windDirection}<br>Feels like<br>${station.windChill}</div>
+        </div>
+        <div class="column">
+            <div class="notification is-dark"><b>Pressure</b><br><br>${station.pressure}hpa<br><br><br><br></div>
+        </div>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>Code</th>
+            <th>Temp</th>
+            <th>Wind Speed</th>
+            <th>Wind Direction</th>
+            <th>Pressure</th>
+            <th></th> <!--            will be used for submit button-->
+        </tr>
+        </thead>
+
+        <tbody>
+        #{list items:station.readings, as:'reading'}
+        <tr>
+            <td>${reading.code}</td>
+            <td>${reading.temperature}</td>
+            <td>${reading.windSpeed}</td>
+            <td>${reading.windDirection}</td>
+            <td>${reading.pressure}</td>
+            <td>
+                <form action="/dashboard/deleteReading/${station.id}/${reading.id}" method="POST">
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-link is-danger" type="submit">Delete</button>
+                        </div>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        #{/list}
+        <tr>
+        <form action="/dashboard/${station.id}/addReading" method="POST">
+<!--            <input type="hidden" name="id" value=${station.id}>-->
+            <td>
+            <div class="field">
+<!--                <label class="label">Code</label>-->
+                <div class="control">
+                    <input class="input" name="code" placeholder="00">
+                </div>
+            </div>
+            </td>
+            <td>
+            <div class="field">
+<!--                <label class="label">Temperature</label>-->
+                <div class="control">
+                    <input class="input" name="temperature" placeholder="00.0C">
+                </div>
+            </div>
+            </td>
+            <td>
+            <div class="field">
+<!--                <label class="label">Wind Speed</label>-->
+                <div class="control">
+                    <input class="input" name="windSpeed" placeholder="00.00kMh">
+                </div>
+            </div>
+            </td>
+            <td>
+            <div class="field">
+<!--                <label class="label">Wind Direction</label>-->
+                <div class="control">
+                    <input class="input" name="windDirection" placeholder="000deg">
+                </div>
+            </div>
+            </td>
+            <td>
+            <div class="field">
+<!--                <label class="label">Pressure</label>-->
+                <div class="control">
+                    <input class="input" name="pressure" placeholder="000hPa">
+                </div>
+            </div>
+            </td>
+            <td>
+            <div class="field">
+                <div class="control">
+                    <button class="button is-link is-success" type="submit">Submit Report</button>
+                </div>
+            </div>
+            </td>
+        </form>
+        </tr>
+        </tbody>
     </table>
+    <div class="box">
+
+    </div>
 </div>
 #{/list}
+<div class="content box">
+    <form action="/dashboard/addStation" method="POST">
+        <div class="field">
+            <label class="label title" style="font-size: 2em;">Name</label>
+            <div class="control">
+                <input class="input is-normal" type="text" name="name" placeholder="Name">
+                <button class="button is-link is-info is-normal" style="display:block;margin-top:20px;">Add Station</button>
+            </div>
+        </div>
+    </form>
+</div>

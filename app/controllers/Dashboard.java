@@ -14,15 +14,51 @@ public class Dashboard extends Controller {
         Logger.info("Rendering Admin");
         List<Station> stations = Station.findAll();
         for (Station station: stations) {
-            station.weather = getWeather(station.readings.get(station.readings.size() -1).code);
-            station.temp = getTemp(station.readings.get(station.readings.size() -1).temperature);
-            station.wind = getWind(station.readings.get(station.readings.size() -1).windSpeed);
-            station.pressure = station.readings.get(station.readings.size() -1).pressure + "hpa";
+            if (station.readings.size() >= 1) {
+                Reading r = station.readings.get(station.readings.size() - 1);
+                station.weather = getWeather(r.code);
+                station.tempC = r.temperature;
+                station.tempF = getTempF(r.temperature);
+                station.windBFT = getWindBFT(r.windSpeed);
+                station.windDirection = getWindDirection();
+                station.pressure = r.pressure;
+            }
         }
 
-        System.out.println(stations.get(1).readings.get(1).code);
         render("dashboard.html", stations);
     }
+
+    public static void addReading(Long id, int code, float temperature, double windSpeed,  int windDirection, int pressure) {
+        System.out.println(id);
+        Station station = Station.findById(id);
+        Reading reading = new Reading(code, temperature, windSpeed, windDirection, pressure);
+        station.readings.add(reading);
+        station.save();
+        redirect("/dashboard");
+
+    }
+
+    public static void deleteReading(Long stationId, Long readingId) {
+        Station station = Station.findById(stationId);
+        Reading reading = Reading.findById(readingId);
+        station.readings.remove(reading);
+        station.save();
+        redirect("/dashboard");
+    }
+
+    public static void addStation(String name) {
+        Station station = new Station(name);
+        station.save();
+        redirect("/dashboard");
+    }
+
+    public static void deleteStation(Long id) {
+        Station station = Station.findById(id);
+        station.delete();
+        redirect("/dashboard");
+    }
+
+
 
     public static String getWeather(int code) {
         String weather;
@@ -49,30 +85,39 @@ public class Dashboard extends Controller {
         return weather;
     }
 
-    public static String getTemp(float tempCelcius) {
-        double tempFahrenheit = tempCelcius * (9.0/5.0) + 32;
-        return tempCelcius + "C\n" + tempFahrenheit + "F";
+    public static double getTempF(double tempCelcius) {
+        return tempCelcius * (9.0/5.0) + 32;
     }
 
-    public static String getWind(float windSpeed) {
-        List<float[]> conversions = new ArrayList<float[]>();
-        conversions.add(new float[] {0, 1, 0});
-        conversions.add(new float[] {1, 5, 1});
-        conversions.add(new float[] {6, 11, 2});
-        conversions.add(new float[] {12, 19, 3});
-        conversions.add(new float[] {20, 28, 4});
-        conversions.add(new float[] {29, 38, 5});
-        conversions.add(new float[] {39, 49, 6});
-        conversions.add(new float[] {50, 61, 7});
-        conversions.add(new float[] {63, 74, 8});
-        conversions.add(new float[] {75, 88, 9});
-        conversions.add(new float[] {89, 102, 10});
-        conversions.add(new float[] {103, 117, 12});
+    public static int getWindBFT(double windSpeed) {
+        List<int[]> conversions = new ArrayList<int[]>();
+        conversions.add(new int[] {0, 1, 0});
+        conversions.add(new int[] {1, 5, 1});
+        conversions.add(new int[] {6, 11, 2});
+        conversions.add(new int[] {12, 19, 3});
+        conversions.add(new int[] {20, 28, 4});
+        conversions.add(new int[] {29, 38, 5});
+        conversions.add(new int[] {39, 49, 6});
+        conversions.add(new int[] {50, 61, 7});
+        conversions.add(new int[] {63, 74, 8});
+        conversions.add(new int[] {75, 88, 9});
+        conversions.add(new int[] {89, 102, 10});
+        conversions.add(new int[] {103, 117, 12});
 
-        for (float[] c: conversions) {
-            if (windSpeed > c[0] && windSpeed <= c[1]) {return c[2] + "bft";}
+        for (int[] c: conversions) {
+            if (windSpeed > c[0] && windSpeed <= c[1]) {
+                return c[2];
+            }
         }
-        return "n/a";
+        return 0;
     }
+
+    public static String getWindDirection(){
+        return "N";
+    }
+    public static double getWindChill(double tempCelsius, double windSpeed) {
+        return 13.12 + 0.6215*tempCelsius - 11.37*Math.pow(windSpeed, 0.16) + (0.3965*tempCelsius)*Math.pow(windSpeed, 0.16);
+    }
+
 
 }

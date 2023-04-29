@@ -5,8 +5,13 @@
 # Home page
 GET     /                                       Start.index
 GET     /dashboard                              Dashboard.index
+POST    /dashboard/{id}/addReading              Dashboard.addReading
+POST    /dashboard/deleteReading/{stationId}/{readingId}           Dashboard.deleteReading
+POST    /dashboard/addStation                   Dashboard.addStation
+POST    /dashboard/deleteStation/{id}           Dashboard.deleteStation
 GET     /about                                  About.index
 GET     /admin                                  Admin.index
+
 
 GET     /playlists/{id}                         PlaylistCtrl.index
 GET     /playlists/{id}/deletesong/{songid}     PlaylistCtrl.deleteSong
