@@ -18,19 +18,46 @@
 
     <div class="columns">
         <div class="column">
-            <div class="notification is-dark"><b>${station.name}</b><br><br><br><br><br><br></div>
+            <div class="notification is-dark" style="height:100%">
+                <p><b>${station.name}</b></p>
+                <p style="margin:0">Lat: ${station.Lat}</p>
+                <p style="margin:0">Lng: ${station.Lng}</p>
+            </div>
         </div>
         <div class="column">
-            <div class="notification is-dark"><b>Weather</b><br><br>${station.weather}<br><br><br><br></div>
+            <div class="notification is-dark" style="height:100%">
+                <p><b>Weather</b></p>
+                <p>${station.weather}</p>
+            </div>
         </div>
         <div class="column">
-            <div class="notification is-dark"><b>Temp</b><br><br>${station.tempC}C<br>${station.tempF}<br><br><br></div>
+            <div class="notification is-dark" style="height:100%">
+                <p><b>Temp</b></p>
+                <p style="margin:0">${station.tempC}C</p>
+                <p style="margin:0">${station.tempF}F</p>
+                <p style="margin:0">Max: ${station.max}</p>
+                <p style="margin:0">Min: ${station.min}</p>
+            </div>
         </div>
         <div class="column">
-            <div class="notification is-dark"><b>Wind</b><br><br>${station.windBFT}bft<br>${station.windDirection}<br>Feels like<br>${station.windChill}</div>
+            <div class="notification is-dark" style="height:100%">
+                <p style="margin:0"><b>Wind</b></p>
+                <p></p>
+                <p style="margin:0">${station.windBFT}bft</p>
+                <p style="margin:0">${station.windDirection}</p>
+                <p style="margin:0">Feels like</p>
+                <p style="margin:0">${station.windChill}</p>
+                <p style="margin:0">Max: ${station.windMax}</p>
+                <p style="margin:0">Min: ${station.windMin}</p>
+            </div>
         </div>
         <div class="column">
-            <div class="notification is-dark"><b>Pressure</b><br><br>${station.pressure}hpa<br><br><br><br></div>
+            <div class="notification is-dark" style="height:100%">
+                <p><b>Pressure</b></p>
+                <p style="margin:0">${station.pressure} hpa</p>
+                <p style="margin:0">Max: ${station.pressureMax}</p>
+                <p style="margin:0">Min: ${station.pressureMin}</p>
+            </div>
         </div>
     </div>
     <table>
@@ -123,14 +150,67 @@
     </div>
 </div>
 #{/list}
+
 <div class="content box">
-    <form action="/dashboard/addStation" method="POST">
+    <form id="addStation" action="/dashboard/addStation" method="POST" onsubmit="return validateForm(event)">
+        <div class="columns is-multiline">
+            <div class="column is-one-third">
+                <div class="field">
+                    <label id="addStationName" class="label title" style="font-size: 1.5em;">Name</label>
+                    <div class="control">
+                        <input class="input is-normal" type="text" name="name" placeholder="Name">
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-one-third">
+                <div class="field">
+                    <label class="label title" style="font-size: 1.5em;">Lat</label>
+                    <div class="control">
+                        <input class="input is-normal" type="text" name="lat" id="latInput" placeholder="00.00">
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-one-third">
+                <div class="field">
+                    <label class="label title" style="font-size: 1.5em;">Lng</label>
+                    <div class="control">
+                        <input class="input is-normal" type="text" name="lng" id="lngInput" placeholder="00.00">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="field">
-            <label class="label title" style="font-size: 2em;">Name</label>
             <div class="control">
-                <input class="input is-normal" type="text" name="name" placeholder="Name">
-                <button class="button is-link is-info is-normal" style="display:block;margin-top:20px;">Add Station</button>
+                <button class="button is-link is-info is-normal">Add Station</button>
             </div>
         </div>
     </form>
 </div>
+
+
+<script>
+    function validateForm(event) {
+        event.preventDefault(); // Stops default form submit behaviour
+
+        // AddStation Form - Validation
+        if (event.target.id === "addStation") {
+            var name = document.getElementById("addStationName").value;
+            var lat = parseFloat(document.getElementById("latInput").value);
+            var lng = parseFloat(document.getElementById("lngInput").value);
+            if (isNaN(lat) || isNaN(lng)) {
+                alert("Please enter valid latitude and longitude values.");
+                return false;
+            } else if (name.length <= 0) {
+                alert("The station name you entered is invalid.")
+                return false;
+            }
+        }
+        // TODO - REALISTICALLY ADD SOME REGEX FOR THESE TBH, MANUAL VALIDATION IS POINTLESS
+        // If form validation passes, you can proceed with form submission
+        event.target.submit();
+    }
+</script>
+

@@ -1,10 +1,3 @@
-p {
-    font-weight: 500;
-    font-family: Lyon,Helvetica,Arial,sans-serif;
-    font-size: 100%;
-    line-height: 2;
-}
-
 h1 {
     white-space: nowrap;
     display: inline;
@@ -15,4 +8,5 @@ h1 {
     font-size: 40px;
     font-family: "SF Pro Display","SF Pro Icons","Helvetica Neue","Helvetica","Arial", sans-serif;
 }
+
 

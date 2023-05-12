@@ -5,6 +5,7 @@ import play.Logger;
 import play.mvc.Controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Dashboard extends Controller {
@@ -18,12 +19,27 @@ public class Dashboard extends Controller {
         for (Station station: member.stations) {
             if (station.readings.size() >= 1) {
                 Reading r = station.readings.get(station.readings.size() - 1);
+
+                // Temp pane
                 station.weather = getWeather(r.code);
+
+                // Weather pane
                 station.tempC = r.temperature;
                 station.tempF = getTempF(r.temperature);
+                station.max = getMax(station, "t");
+                station.min = getMin(station, "t");
+
+                // Wind pane
                 station.windBFT = getWindBFT(r.windSpeed);
-                station.windDirection = getWindDirection();
+                station.windDirection = getWindDirection(r.windDirection);
+                station.windChill = getWindChill(r.temperature, r.windSpeed);
+                station.windMax = getMax(station, "w");
+                station.windMin = getMin(station, "w");
+
+                // Pressure pane
                 station.pressure = r.pressure;
+                station.pressureMax = getMax(station, "p");
+                station.pressureMin = getMin(station, "p");
             }
         }
         member.save();
@@ -51,9 +67,9 @@ public class Dashboard extends Controller {
         redirect("/dashboard");
     }
 
-    public static void addStation(String name) {
+    public static void addStation(String name, double lat, double lng) {
         Member member = Account.getCurrentMember();
-        Station station = new Station(name);
+        Station station = new Station(name, lat, lng);
         member.stations.add(station);
         member.save();
         redirect("/dashboard");
@@ -89,7 +105,7 @@ public class Dashboard extends Controller {
             break;
             case 800: weather = "Thunder";
             break;
-            default: weather = "N/A";
+            default: weather = "Varied";
             break;
         }
         return weather;
@@ -97,6 +113,42 @@ public class Dashboard extends Controller {
 
     public static double getTempF(double tempCelcius) {
         return tempCelcius * (9.0/5.0) + 32;
+    }
+
+    public static double getMax(Station st, String type) {
+        ArrayList<Double> temps = new ArrayList<Double>();
+        double maxValue = 0;
+
+        for (Reading reading: st.readings) {
+            if (type.equals("w")) {
+                maxValue = Math.max(maxValue, reading.windSpeed);
+            } else if (type.equals("t")) {
+                maxValue = Math.max(maxValue, reading.temperature);
+            } else {
+                maxValue = Math.max(maxValue, reading.pressure);
+            }
+        }
+
+        return maxValue;
+
+    }
+
+    public static double getMin(Station st, String type) {
+        ArrayList<Double> temps = new ArrayList<Double>();
+        double minValue = 100000;
+
+        for (Reading reading: st.readings) {
+            if (type.equals("w")) {
+                minValue = Math.min(minValue, reading.windSpeed);
+            } else if (type.equals("t")) {
+                minValue = Math.min(minValue, reading.temperature);
+            } else {
+                minValue = Math.min(minValue, reading.pressure);
+            }
+        }
+
+        return minValue;
+
     }
 
     public static int getWindBFT(double windSpeed) {
@@ -122,11 +174,36 @@ public class Dashboard extends Controller {
         return 0;
     }
 
-    public static String getWindDirection(){
-        return "N";
+    public static String getWindDirection(double windDirection){
+        String windD;
+        HashMap<String, String> windMap = new HashMap<>();
+        windMap.put("N", "North");
+        windMap.put("NNE", "North North East");
+        windMap.put("NE", "North East");
+        windMap.put("ENE", "East North East");
+        windMap.put("E", "East");
+        windMap.put("ESE", "East South East");
+        windMap.put("SE", "South East");
+        windMap.put("SSE", "South South East");
+        windMap.put("S", "South");
+        windMap.put("SSW", "South South West");
+        windMap.put("SW", "South West");
+        windMap.put("WSW", "West South West");
+        windMap.put("W", "West");
+        windMap.put("WNW", "West North West");
+        windMap.put("NW", "North West");
+        windMap.put("NNW", "North North West");
+        windMap.put("Unknown", "N/A");
+
+        String[] directions = {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"};
+        int index = (int) ((windDirection / 22.5) + 0.5) % 16;    // Casting or else will get err as return is long
+        return windMap.get(directions[index]);
     }
+
+
     public static double getWindChill(double tempCelsius, double windSpeed) {
-        return 13.12 + 0.6215*tempCelsius - 11.37*Math.pow(windSpeed, 0.16) + (0.3965*tempCelsius)*Math.pow(windSpeed, 0.16);
+        double value = 13.12 + 0.6215*tempCelsius - 11.37*Math.pow(windSpeed, 0.16) + (0.3965*tempCelsius)*Math.pow(windSpeed, 0.16);
+        return Double.parseDouble(String.format("%.1f",  value));
     }
 
 
