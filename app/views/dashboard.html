@@ -1,5 +1,5 @@
-#{extends 'main.html' /}
-#{set title:'Dashboard' /}
+#{extends "main.html" /}
+#{set title:"Dashboard" /}
 
 #{menu id:"dashboard"/}
 
@@ -24,7 +24,7 @@
             <div class="notification is-dark"><b>Weather</b><br><br>${station.weather}<br><br><br><br></div>
         </div>
         <div class="column">
-            <div class="notification is-dark"><b>Temp</b><br><br>${station.tempC}C<br>${station.tempF}F<br><br><br></div>
+            <div class="notification is-dark"><b>Temp</b><br><br>${station.tempC}C<br>${station.tempF}<br><br><br></div>
         </div>
         <div class="column">
             <div class="notification is-dark"><b>Wind</b><br><br>${station.windBFT}bft<br>${station.windDirection}<br>Feels like<br>${station.windChill}</div>
