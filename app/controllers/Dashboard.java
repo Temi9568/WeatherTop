@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
 import java.text.DateFormat;
 import java.util.Date;
 
@@ -46,11 +48,7 @@ public class Dashboard extends Controller {
             }
         }
         member.save();
-
-        for (Station station: member.stations) {
-            System.out.println(station.name);
-        }
-
+        member.stations.sort((s1, s2) -> s1.name.compareToIgnoreCase(s2.name));
         render("dashboard.html", member);
     }
 
