@@ -9,6 +9,12 @@ public class Account extends Controller {
         return  Member.findById(Long.parseLong(memberId));
     }
 
+    public static void memberPage() {
+        Member member = getCurrentMember();
+        render("member.html", member);
+    }
+
+
     public static void login() {
         render("login.html");
     }

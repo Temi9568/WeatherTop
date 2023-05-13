@@ -1,0 +1,89 @@
+<div class="columns">
+        <div class="column">
+            <div class="notification is-dark" style="height:100%">
+                <p><b>${_station.name}</b></p>
+                <p style="margin:0">Lat: ${_station.Lat}</p>
+                <p style="margin:0">Lng: ${_station.Lng}</p>
+            </div>
+        </div>
+
+
+<!--    WEATHER PANE-->
+        <div class="column">
+            <div class="notification is-dark" style="height:100%">
+                <span class="icon has-text-white" style="float: right;padding-top: 2em;">
+                     <i class="fa-solid fa-cloud-sun-rain fa-4x"></i>
+                </span>
+                <p><b>Weather</b></p>
+                <p>${_station.weather}</p>
+            </div>
+        </div>
+
+
+
+        <div class="column">
+            <div class="notification is-dark" style="height:100%">
+                <span class="icon has-text-info" style="float: right;padding-top: 2em;">
+                     <i class="fa-solid fa-temperature-full fa-5x"></i>
+                </span>
+                <p><b>Temp</b></p>
+                <p style="margin:0">${_station.tempC}C</p>
+                <p style="margin:0">${_station.tempF}F</p>
+                <p style="margin:0">Max: ${_station.max}</p>
+                <p style="margin:0; display: inline">Min: ${_station.min}</p>
+                    %{ if (_station.min < _station.max) { }%
+                        <span class="icon is-large has-text-danger" style="display: inline; float: right;">
+                            <i class="fa-solid fa-arrow-trend-down fa-2x"></i>
+                        </span>
+                    %{ } else { }%
+                        <span class="icon is-large has-text-success" style="display: inline; float: right;">
+                            <i class="fa-solid fa-arrow-trend-up fa-2x"></i>
+                        </span>
+                    %{ } }%
+            </div>
+        </div>
+        <div class="column">
+            <div class="notification is-dark" style="height:100%">
+                 <span class="icon has-text-success" style="float: right;padding-top: 2em;">
+                     <i class="fa-solid fa-wind fa-4x"></i>
+                </span>
+                <p style="margin:0"><b>Wind</b></p>
+                <p></p>
+                <p style="margin:0">${_station.windBFT}bft</p>
+                <p style="margin:0">${_station.windDirection}</p>
+                <p style="margin:0">Feels like</p>
+                <p style="margin:0">${_station.windChill}</p>
+                <p style="margin:0">Max: ${_station.windMax}</p>
+                <p style="margin:0;display: inline;">Min: ${_station.windMin}</p>
+                %{ if (_station.windMin < _station.windMax) { }%
+                <span class="icon is-large has-text-danger" style="display: inline; float: right;">
+                            <i class="fa-solid fa-arrow-trend-down fa-2x"></i>
+                        </span>
+                %{ } else { }%
+                <span class="icon is-large has-text-success" style="display: inline; float: right;">
+                            <i class="fa-solid fa-arrow-trend-up fa-2x"></i>
+                        </span>
+                %{ } }%
+            </div>
+        </div>
+        <div class="column">
+            <div class="notification is-dark" style="height:100%">
+                <span class="icon has-text-warning" style="float: right;padding-top: 2em;">
+                     <i class="fa-thin fa-wpressr fa-4x"></i>
+                </span>
+                <p><b>Pressure</b></p>
+                <p style="margin:0">${_station.pressure} hpa</p>
+                <p style="margin:0">Max: ${_station.pressureMax}</p>
+                <p style="margin:0; display: inline;">Min: ${_station.pressureMin}</p>
+                %{ if (_station.pressureMin < _station.pressureMax) { }%
+                <span class="icon is-large has-text-danger" style="display: inline; float: right;">
+                            <i class="fa-solid fa-arrow-trend-down fa-2x"></i>
+                        </span>
+                %{ } else { }%
+                <span class="icon is-large has-text-success" style="display: inline; float: right;">
+                            <i class="fa-solid fa-arrow-trend-up fa-2x"></i>
+                        </span>
+                %{ } }%
+            </div>
+        </div>
+    </div>

@@ -17,88 +17,18 @@
     </div>
 
 <!--    STATION SUMMARY PANES-->
-    <div class="columns">
-        <div class="column">
-            <div class="notification is-dark" style="height:100%">
-                <p><b>${station.name}</b></p>
-                <p style="margin:0">Lat: ${station.Lat}</p>
-                <p style="margin:0">Lng: ${station.Lng}</p>
-            </div>
-        </div>
+    #{displayPanes station:station/}
 
-        <div class="column">
-            <div class="notification is-dark" style="height:100%">
-                <p><b>Weather</b></p>
-                <p>${station.weather}</p>
-            </div>
-        </div>
-        <div class="column">
-            <div class="notification is-dark" style="height:100%">
-                <p><b>Temp</b></p>
-                <p style="margin:0">${station.tempC}C</p>
-                <p style="margin:0">${station.tempF}F</p>
-                <p style="margin:0">Max: ${station.max}</p>
-                <p style="margin:0; display: inline">Min: ${station.min}</p>
-                    %{ if (station.min < station.max) { }%
-                        <span class="icon is-large has-text-danger" style="display: inline; float: right;">
-                            <i class="fa-solid fa-arrow-trend-down fa-2x"></i>
-                        </span>
-                    %{ } else { }%
-                        <span class="icon is-large has-text-success" style="display: inline; float: right;">
-                            <i class="fa-solid fa-arrow-trend-up fa-2x"></i>
-                        </span>
-                    %{ } }%
-            </div>
-        </div>
-        <div class="column">
-            <div class="notification is-dark" style="height:100%">
-                <p style="margin:0"><b>Wind</b></p>
-                <p></p>
-                <p style="margin:0">${station.windBFT}bft</p>
-                <p style="margin:0">${station.windDirection}</p>
-                <p style="margin:0">Feels like</p>
-                <p style="margin:0">${station.windChill}</p>
-                <p style="margin:0">Max: ${station.windMax}</p>
-                <p style="margin:0;display: inline;">Min: ${station.windMin}</p>
-                %{ if (station.windMin < station.windMax) { }%
-                <span class="icon is-large has-text-danger" style="display: inline; float: right;">
-                            <i class="fa-solid fa-arrow-trend-down fa-2x"></i>
-                        </span>
-                %{ } else { }%
-                <span class="icon is-large has-text-success" style="display: inline; float: right;">
-                            <i class="fa-solid fa-arrow-trend-up fa-2x"></i>
-                        </span>
-                %{ } }%
-            </div>
-        </div>
-        <div class="column">
-            <div class="notification is-dark" style="height:100%">
-                <p><b>Pressure</b></p>
-                <p style="margin:0">${station.pressure} hpa</p>
-                <p style="margin:0">Max: ${station.pressureMax}</p>
-                <p style="margin:0; display: inline;">Min: ${station.pressureMin}</p>
-                %{ if (pressureMin < pressureMax) { }%
-                <span class="icon is-large has-text-danger" style="display: inline; float: right;">
-                            <i class="fa-solid fa-arrow-trend-down fa-2x"></i>
-                        </span>
-                %{ } else { }%
-                <span class="icon is-large has-text-success" style="display: inline; float: right;">
-                            <i class="fa-solid fa-arrow-trend-up fa-2x"></i>
-                        </span>
-                %{ } }%
-            </div>
-        </div>
-    </div>
-
+<!--    Collapsible Button-->
     <div>
         <span class="icon is-large collapse-icon">
-                <i class="fa-regular fa-square-minus fa-2x"></i>
+                <i class="fa-regular fa-square-plus fa-2x"></i>
             </span>
     </div>
 
 
 <!--    READINGS TABLE-->
-    <table class="readings-table">
+    <table class="readings-table collapsed" style="display: none">
         <thead>
         <tr>
             <th>Date/Time</th>

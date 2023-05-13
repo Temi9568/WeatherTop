@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-GET     /                                       Start.index
+GET     /                                       Application.index
 GET     /dashboard                              Dashboard.index
 POST    /dashboard/{id}/addReading              Dashboard.addReading
 POST    /dashboard/deleteReading/{stationId}/{readingId}           Dashboard.deleteReading
@@ -11,6 +11,7 @@ POST    /dashboard/addStation                   Dashboard.addStation
 POST    /dashboard/deleteStation/{id}           Dashboard.deleteStation
 GET     /about                                  About.index
 GET     /admin                                  Admin.index
+GET     /member                                 Account.memberPage
 GET     /login                                  Account.login
 GET     /logout                                 Account.logout
 POST    /authenticate                           Account.authenticate

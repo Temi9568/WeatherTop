@@ -1,0 +1,109 @@
+#{extends "main.html" /}
+#{set title:"Member" /}
+#{menu id:"Member Area"/}
+
+
+<div class="content box">
+    <form id="edit-member-details" action="/member" class="box" method="POST" onsubmit="updateMemberDetails(event)">
+        <div class="columns is-centered">
+            <div class="column is-two-thirds">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">First Name</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input type="text" name="firstname" placeholder="${member.firstName}" class="input" disabled required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-centered">
+            <div class="column is-two-thirds">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Last Name</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input type="text" name="lastname" placeholder="${member.lastName}" class="input" disabled required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-centered">
+            <div class="column is-two-thirds">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Email</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input type="email" name="email" placeholder="${member.email}" class="input" disabled required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="columns is-centered">
+            <div class="column is-two-thirds">
+                <div class="field is-horizontal">
+                    <div class="field-label is-normal">
+                        <label class="label">Password</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <div class="control">
+                                <input type="password" name="password" placeholder="*******" class="input" disabled required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="columns is-centered pt-50">
+            <button class="button is-dark unedited">
+                Edit Details!
+            </button>
+        </div>
+
+    </form>
+</div>
+
+
+
+
+
+<script>
+
+    const updateMemberDetails = (event) => {
+        event.preventDefault();
+        const formInputs = document.querySelector("#edit-member-details").querySelectorAll("input");
+
+        if ( event.target.querySelector("button").classList.contains("unedited")) {
+            formInputs.forEach(input => {
+                input.disabled = false;
+            })
+            event.target.querySelector("button").classList.toggle("unedited");
+            event.target.querySelector("button").innerText = "Save Changes!";
+            event.target.querySelector("button").classList.replace("is-dark", "is-success");
+        } else {
+            if (confirm("Are you sure you want to save these changes?")) {
+                formInputs.forEach(input => input.disabled = true);
+                event.target.submit();
+            }
+        }
+    }
+
+
+</script>
