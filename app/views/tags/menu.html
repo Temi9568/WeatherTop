@@ -1,4 +1,4 @@
-<nav class="navbar is-light is-inverted box">
+<nav class="navbar is-dark is-inverted box">
   <div class="navbar-brand">
     <a id="start" class="navbar-item" href="/"> <b>
       <div class="has-text-info" style="display: inline">WeatherTop</div>
@@ -7,19 +7,19 @@
   </div>
   <div class="navbar-menu">
     <div class="navbar-end">
-      <a id="about" class="navbar-item" href="/about">About </a>
+      <a id="about" class="navbar-item disabled-link" href="/about">About </a>
       <a id="dashboard" class="navbar-item" href="/dashboard">Dashboard</a>
 
 
 <!--      Member area of NAVBAR and logout-->
       <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-item">
-            <span class="icon">
+        <a id="member" class="navbar-link"  href="/member">
+            <span class="icon has-text-white">
               <i class="fa-solid fa-user fa-2x"></i>
             </span>
         </a>
         <div class="navbar-dropdown">
-          <a id="member" class="navbar-item" href="/member">Edit Details</a>
+          <a class="navbar-item" href="/member">Edit Details</a>
           <a id="logout" class="navbar-item" href="/logout">Logout</a>
         </div>
         </div>
@@ -29,5 +29,5 @@
 </nav>
 
 <script>
-  $("#${_id}").addClass("has-background-white has-text-black");
+  $("#${_id}").addClass("has-background-black has-text-white");
 </script>
