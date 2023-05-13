@@ -4,9 +4,12 @@ import models.*;
 import play.Logger;
 import play.mvc.Controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.text.DateFormat;
+import java.util.Date;
 
 public class Dashboard extends Controller {
 
@@ -43,6 +46,7 @@ public class Dashboard extends Controller {
             }
         }
         member.save();
+
         for (Station station: member.stations) {
             System.out.println(station.name);
         }
@@ -52,7 +56,8 @@ public class Dashboard extends Controller {
 
     public static void addReading(Long id, int code, float temperature, double windSpeed,  int windDirection, int pressure) {
         Station station = Station.findById(id);
-        Reading reading = new Reading(code, temperature, windSpeed, windDirection, pressure);
+        String date = Reading.getFormattedDate();
+        Reading reading = new Reading(code, temperature, windSpeed, windDirection, pressure, date);
         station.readings.add(reading);
         station.save();
         redirect("/dashboard");

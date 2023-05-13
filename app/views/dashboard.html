@@ -63,6 +63,7 @@
     <table>
         <thead>
         <tr>
+            <th>Date/Time</th>
             <th>Code</th>
             <th>Temp</th>
             <th>Wind Speed</th>
@@ -75,6 +76,7 @@
         <tbody>
         #{list items:station.readings, as:'reading'}
         <tr>
+            <td>${reading.date}</td>
             <td>${reading.code}</td>
             <td>${reading.temperature}</td>
             <td>${reading.windSpeed}</td>
@@ -94,6 +96,14 @@
         <tr>
         <form action="/dashboard/${station.id}/addReading" method="POST">
 <!--            <input type="hidden" name="id" value=${station.id}>-->
+            <td>
+                <div class="field">
+                    <!--                <label class="label">Code</label>-->
+                    <div class="control">
+                        <input class="input" name="code" placeholder="" disabled>
+                    </div>
+                </div>
+            </td>
             <td>
             <div class="field">
 <!--                <label class="label">Code</label>-->
