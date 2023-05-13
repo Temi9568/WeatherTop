@@ -38,7 +38,16 @@
                 <p style="margin:0">${station.tempC}C</p>
                 <p style="margin:0">${station.tempF}F</p>
                 <p style="margin:0">Max: ${station.max}</p>
-                <p style="margin:0">Min: ${station.min}</p>
+                <p style="margin:0; display: inline">Min: ${station.min}</p>
+                    %{ if (station.min < station.max) { }%
+                        <span class="icon is-large has-text-danger" style="display: inline; float: right;">
+                            <i class="fa-solid fa-arrow-trend-down fa-2x"></i>
+                        </span>
+                    %{ } else { }%
+                        <span class="icon is-large has-text-success" style="display: inline; float: right;">
+                            <i class="fa-solid fa-arrow-trend-up fa-2x"></i>
+                        </span>
+                    %{ } }%
             </div>
         </div>
         <div class="column">
@@ -50,7 +59,16 @@
                 <p style="margin:0">Feels like</p>
                 <p style="margin:0">${station.windChill}</p>
                 <p style="margin:0">Max: ${station.windMax}</p>
-                <p style="margin:0">Min: ${station.windMin}</p>
+                <p style="margin:0;display: inline;">Min: ${station.windMin}</p>
+                %{ if (station.windMin < station.windMax) { }%
+                <span class="icon is-large has-text-danger" style="display: inline; float: right;">
+                            <i class="fa-solid fa-arrow-trend-down fa-2x"></i>
+                        </span>
+                %{ } else { }%
+                <span class="icon is-large has-text-success" style="display: inline; float: right;">
+                            <i class="fa-solid fa-arrow-trend-up fa-2x"></i>
+                        </span>
+                %{ } }%
             </div>
         </div>
         <div class="column">
@@ -58,7 +76,16 @@
                 <p><b>Pressure</b></p>
                 <p style="margin:0">${station.pressure} hpa</p>
                 <p style="margin:0">Max: ${station.pressureMax}</p>
-                <p style="margin:0">Min: ${station.pressureMin}</p>
+                <p style="margin:0; display: inline;">Min: ${station.pressureMin}</p>
+                %{ if (pressureMin < pressureMax) { }%
+                <span class="icon is-large has-text-danger" style="display: inline; float: right;">
+                            <i class="fa-solid fa-arrow-trend-down fa-2x"></i>
+                        </span>
+                %{ } else { }%
+                <span class="icon is-large has-text-success" style="display: inline; float: right;">
+                            <i class="fa-solid fa-arrow-trend-up fa-2x"></i>
+                        </span>
+                %{ } }%
             </div>
         </div>
     </div>
