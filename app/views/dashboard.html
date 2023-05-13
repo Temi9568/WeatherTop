@@ -91,14 +91,14 @@
     </div>
 
     <div>
-        <span id="collapse-icon" class="icon is-large">
+        <span class="icon is-large collapse-icon">
                 <i class="fa-regular fa-square-minus fa-2x"></i>
             </span>
     </div>
 
 
 <!--    READINGS TABLE-->
-    <table id="readings-table">
+    <table class="readings-table">
         <thead>
         <tr>
             <th>Date/Time</th>
@@ -240,20 +240,29 @@
 
 
 <script>
+    const icons = document.querySelectorAll(".collapse-icon");
+    const tables = document.querySelectorAll(".readings-table");
 
-    const icon = document.getElementById('collapse-icon');
-    const table = document.getElementById('readings-table');
-    icon.addEventListener('click', () => {
-        if (table.classList.contains('collapsed')) {
-            table.style.display = "table";
-            icon.innerHTML = '<i class="fa-regular fa-square-plus fa-2x"></i>';
-        } else {
-            icon.innerHTML = '<i class="fa-regular fa-square-minus fa-2x"></i>';
-            table.style.display = "none";
-        }
+    for (let i=0;  i < icons.length; i++) {
+        icons[i].addEventListener('click', () => {
+            if (tables[i].classList.contains('collapsed')) {
+                tables[i].style.display = "table";
+                icons[i].innerHTML = '<i class="fa-regular fa-square-minus fa-2x"></i>';
+            } else {
+                tables[i].style.display = "none";
+                icons[i].innerHTML = '<i class="fa-regular fa-square-plus fa-2x"></i>';
+            }
 
-        table.classList.toggle('collapsed');
-    });
+            tables[i].classList.toggle('collapsed');
+        });
+    }
+
+
+
+
+
+
+
 
 
     // function validateForm(event) {
