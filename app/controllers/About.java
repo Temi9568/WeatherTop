@@ -8,9 +8,8 @@ import models.*;
 public class About extends Controller
 {
   public static void index() {
-    if (!session.contains("logged_in_Memberid")) { redirect("/login");}
-    Logger.info("Rendering about");
-    render ("about.html");
+    boolean loggedIn = session.contains("logged_in_Memberid");
+    render ("about.html", loggedIn);
   }
 }
 

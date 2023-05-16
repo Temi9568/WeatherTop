@@ -27,7 +27,13 @@
                             <h1 style="color: white;">Weather Top</h1>
                         </div>
                         <div class="content has-text-light">
-                            <button class="button is-info is-rounded" type="button"><a class="has-text-white" href="/dashboard">Welcome back Temi - Click to Continue!</a></button>
+                            %{ if (member) { }%
+                                <button class="button is-info is-rounded" type="button"><a class="has-text-white" href="/dashboard">Welcome back ${member.firstName} - Click to Continue!</a></button>
+                            %{ } else { }%
+                                <button class="button is-info is-solid" type="button"><a class="has-text-white" href="/about">About</a></button>
+                                <button class="button is-info is-solid" type="button"><a class="has-text-white" href="/login">Login</a></button>
+                                <button class="button is-info is-solid" type="button"><a class="has-text-white" href="/signup">Signup</a></button>
+                            %{ } }%
                         </div>
                     </div>
                 </div>

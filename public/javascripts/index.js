@@ -1,19 +1,16 @@
-// function validateForm(event) {
-//     event.preventDefault(); // Stops default form submit behaviour
-//
-//     // AddStation Form - Validation
-//     if (event.target.id === "addStation") {
-//         var name = document.getElementById("addStationName").value;
-//         var lat = parseFloat(document.getElementById("latInput").value);
-//         var lng = parseFloat(document.getElementById("lngInput").value);
-//         if (isNaN(lat) || isNaN(lng)) {
-//             alert("Please enter valid latitude and longitude values.");
-//             return false;
-//         } else if (name.length <= 0) {
-//             alert("The station name you entered is invalid.")
-//             return false;
-//         }
-//     }
-//     // TODO - REALISTICALLY ADD SOME REGEX FOR THESE TBH, MANUAL VALIDATION IS POINTLESS
-//     event.target.submit();
-// }
+const icons = document.querySelectorAll(".collapse-icon");
+const tables = document.querySelectorAll(".readings-table");
+
+for (let i=0;  i < icons.length; i++) {
+    icons[i].addEventListener('click', () => {
+        if (tables[i].classList.contains('collapsed')) {
+            tables[i].style.display = "table";
+            icons[i].innerHTML = '<i class="fa-regular fa-square-minus fa-2x"></i>';
+        } else {
+            tables[i].style.display = "none";
+            icons[i].innerHTML = '<i class="fa-regular fa-square-plus fa-2x"></i>';
+        }
+
+        tables[i].classList.toggle('collapsed');
+    });
+}

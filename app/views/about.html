@@ -1,6 +1,11 @@
 #{extends "main.html" /}
 #{set title: "About" /}
-#{menu id:"about" /}
+
+%{ if (loggedIn) { }%
+  #{menu id:"about" /}
+%{ } else { }%
+  #{welcomeMenu id:"about" /}
+%{ } }%
 
 <div class="container">
   <div class="header box has-background-white-ter has-text-centered">

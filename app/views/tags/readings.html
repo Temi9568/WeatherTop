@@ -1,0 +1,100 @@
+%{
+    station = _station;
+}%
+
+
+<table class="readings-table collapsed" style="display: none">
+    <thead>
+    <tr>
+        <th>Date/Time</th>
+        <th>Code</th>
+        <th>Temp</th>
+        <th>Wind Speed</th>
+        <th>Wind Direction</th>
+        <th>Pressure</th>
+        <th></th> <!--            will be used for submit button-->
+    </tr>
+    </thead>
+
+    <tbody>
+    #{list items:station.readings, as:'reading'}
+    <tr>
+        <td>${reading.date}</td>
+        <td>${reading.code}</td>
+        <td>${reading.temperature}</td>
+        <td>${reading.windSpeed}</td>
+        <td>${reading.windDirection}</td>
+        <td>${reading.pressure}</td>
+        <td>
+            <form action="/dashboard/deleteReading/${station.id}/${reading.id}" method="POST">
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-link is-danger" type="submit">Delete</button>
+                    </div>
+                </div>
+            </form>
+        </td>
+    </tr>
+    #{/list}
+    <tr>
+        <form action="/dashboard/${station.id}/addReading" method="POST">
+            <!--            <input type="hidden" name="id" value=${station.id}>-->
+            <td>
+                <div class="field">
+                    <!--                <label class="label">Code</label>-->
+                    <div class="control">
+                        <input class="input" name="code" placeholder="" disabled>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="field">
+                    <!--                <label class="label">Code</label>-->
+                    <div class="control">
+                        <input class="input" name="code" placeholder="00">
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="field">
+                    <!--                <label class="label">Temperature</label>-->
+                    <div class="control">
+                        <input class="input" name="temperature" placeholder="00.0C">
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="field">
+                    <!--                <label class="label">Wind Speed</label>-->
+                    <div class="control">
+                        <input class="input" name="windSpeed" placeholder="00.00kMh">
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="field">
+                    <!--                <label class="label">Wind Direction</label>-->
+                    <div class="control">
+                        <input class="input" name="windDirection" placeholder="000deg">
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="field">
+                    <!--                <label class="label">Pressure</label>-->
+                    <div class="control">
+                        <input class="input" name="pressure" placeholder="000hPa">
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-link is-success" type="submit">Submit Report</button>
+                    </div>
+                </div>
+            </td>
+        </form>
+    </tr>
+    </tbody>
+</table>

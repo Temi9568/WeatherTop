@@ -3,132 +3,13 @@
 
 #{menu id:"dashboard"/}
 
+
+<!--Listing each station and their readings-->
 #{list items:member.stations, as:'station'}
-<div class="content box">
-    <div class="station header">
-        <h1 class="title is-danger" style="display: inline-block;">${station.name}</h1>
-        <form action="/dashboard/deleteStation/${station.id}" method="POST" style="float: right;">
-            <div class="field">
-                <div class="control">
-                    <button class="button is-link is-danger" type="submit">Delete ${station.name}</button>
-                </div>
-            </div>
-        </form>
-    </div>
-
-<!--    STATION SUMMARY PANES-->
-    #{displayPanes station:station/}
-
-<!--    Collapsible Button-->
-    <div>
-        <span class="icon is-large collapse-icon">
-                <i class="fa-regular fa-square-plus fa-2x"></i>
-            </span>
-    </div>
-
-
-<!--    READINGS TABLE-->
-    <table class="readings-table collapsed" style="display: none">
-        <thead>
-        <tr>
-            <th>Date/Time</th>
-            <th>Code</th>
-            <th>Temp</th>
-            <th>Wind Speed</th>
-            <th>Wind Direction</th>
-            <th>Pressure</th>
-            <th></th> <!--            will be used for submit button-->
-        </tr>
-        </thead>
-
-        <tbody>
-        #{list items:station.readings, as:'reading'}
-        <tr>
-            <td>${reading.date}</td>
-            <td>${reading.code}</td>
-            <td>${reading.temperature}</td>
-            <td>${reading.windSpeed}</td>
-            <td>${reading.windDirection}</td>
-            <td>${reading.pressure}</td>
-            <td>
-                <form action="/dashboard/deleteReading/${station.id}/${reading.id}" method="POST">
-                    <div class="field">
-                        <div class="control">
-                            <button class="button is-link is-danger" type="submit">Delete</button>
-                        </div>
-                    </div>
-                </form>
-            </td>
-        </tr>
-        #{/list}
-        <tr>
-        <form action="/dashboard/${station.id}/addReading" method="POST">
-<!--            <input type="hidden" name="id" value=${station.id}>-->
-            <td>
-                <div class="field">
-                    <!--                <label class="label">Code</label>-->
-                    <div class="control">
-                        <input class="input" name="code" placeholder="" disabled>
-                    </div>
-                </div>
-            </td>
-            <td>
-            <div class="field">
-<!--                <label class="label">Code</label>-->
-                <div class="control">
-                    <input class="input" name="code" placeholder="00">
-                </div>
-            </div>
-            </td>
-            <td>
-            <div class="field">
-<!--                <label class="label">Temperature</label>-->
-                <div class="control">
-                    <input class="input" name="temperature" placeholder="00.0C">
-                </div>
-            </div>
-            </td>
-            <td>
-            <div class="field">
-<!--                <label class="label">Wind Speed</label>-->
-                <div class="control">
-                    <input class="input" name="windSpeed" placeholder="00.00kMh">
-                </div>
-            </div>
-            </td>
-            <td>
-            <div class="field">
-<!--                <label class="label">Wind Direction</label>-->
-                <div class="control">
-                    <input class="input" name="windDirection" placeholder="000deg">
-                </div>
-            </div>
-            </td>
-            <td>
-            <div class="field">
-<!--                <label class="label">Pressure</label>-->
-                <div class="control">
-                    <input class="input" name="pressure" placeholder="000hPa">
-                </div>
-            </div>
-            </td>
-            <td>
-            <div class="field">
-                <div class="control">
-                    <button class="button is-link is-success" type="submit">Submit Report</button>
-                </div>
-            </div>
-            </td>
-        </form>
-        </tr>
-        </tbody>
-    </table>
-    <div class="box">
-
-    </div>
-</div>
+    #{station station:station/}
 #{/list}
 
+<!--Add station-->
 <div class="content box">
     <form id="addStation" action="/dashboard/addStation" method="POST" onsubmit="return validateForm(event)">
         <div class="columns is-multiline">
@@ -167,52 +48,4 @@
         </div>
     </form>
 </div>
-
-
-<script>
-    const icons = document.querySelectorAll(".collapse-icon");
-    const tables = document.querySelectorAll(".readings-table");
-
-    for (let i=0;  i < icons.length; i++) {
-        icons[i].addEventListener('click', () => {
-            if (tables[i].classList.contains('collapsed')) {
-                tables[i].style.display = "table";
-                icons[i].innerHTML = '<i class="fa-regular fa-square-minus fa-2x"></i>';
-            } else {
-                tables[i].style.display = "none";
-                icons[i].innerHTML = '<i class="fa-regular fa-square-plus fa-2x"></i>';
-            }
-
-            tables[i].classList.toggle('collapsed');
-        });
-    }
-
-
-
-
-
-
-
-
-
-    // function validateForm(event) {
-    //     event.preventDefault(); // Stops default form submit behaviour
-    //
-    //     // AddStation Form - Validation
-    //     if (event.target.id === "addStation") {
-    //         var name = document.getElementById("addStationName").value;
-    //         var lat = parseFloat(document.getElementById("latInput").value);
-    //         var lng = parseFloat(document.getElementById("lngInput").value);
-    //         if (isNaN(lat) || isNaN(lng)) {
-    //             alert("Please enter valid latitude and longitude values.");
-    //             return false;
-    //         } else if (name.length <= 0) {
-    //             alert("The station name you entered is invalid.")
-    //             return false;
-    //         }
-    //     }
-    //     // TODO - REALISTICALLY ADD SOME REGEX FOR THESE TBH, MANUAL VALIDATION IS POINTLESS
-    //     event.target.submit();
-    // }
-</script>
 

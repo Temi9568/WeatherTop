@@ -1,0 +1,33 @@
+%{
+    station = _station;
+}%
+
+
+<div class="content box">
+    <div class="station header">
+        <h1 class="title is-danger" style="display: inline-block;"><a href="/station/${station.id}">${station.name}</a></h1>
+        <form action="/dashboard/deleteStation/${station.id}" method="POST" style="float: right;">
+            <div class="field">
+                <div class="control">
+                    <button class="button is-link is-danger" type="submit">Delete ${station.name}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!--    STATION SUMMARY PANES-->
+    #{displayPanes station:station/}
+
+
+    <!--    Collapsible Button-->
+    <div>
+        <span class="icon is-large collapse-icon">
+                <i class="fa-regular fa-square-plus fa-2x"></i>
+            </span>
+    </div>
+
+
+    <!--    READINGS TABLE-->
+    #{readings station:station/}
+
+</div>

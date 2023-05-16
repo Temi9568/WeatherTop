@@ -9,6 +9,17 @@ public class Account extends Controller {
         return  Member.findById(Long.parseLong(memberId));
     }
 
+    public static void editMemberDetails(String firstname, String lastname, String email, String password) {
+        String memberId = session.get("logged_in_Memberid");
+        Member member = Member.findById(Long.parseLong(memberId));
+        member.firstName = firstname;
+        member.lastName = lastname;
+        member.email = email;
+        member.password = password;
+        member.save();
+        redirect("/logout");
+    }
+
     public static void memberPage() {
         Member member = getCurrentMember();
         render("member.html", member);
