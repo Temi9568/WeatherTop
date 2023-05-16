@@ -6,12 +6,12 @@
 <table class="readings-table collapsed" style="display: none">
     <thead>
     <tr>
-        <th>Date/Time</th>
-        <th>Code</th>
-        <th>Temp</th>
-        <th>Wind Speed</th>
-        <th>Wind Direction</th>
-        <th>Pressure</th>
+        <th style="width: 24%;">Date/Time</th>
+        <th style="width: 16%;">Code</th>
+        <th style="width: 16%;">Temp</th>
+        <th style="width: 16%;">Wind Speed</th>
+        <th style="width: 16%;">Wind Direction</th>
+        <th style="width: 16%;">Pressure</th>
         <th></th> <!--            will be used for submit button-->
     </tr>
     </thead>
@@ -19,17 +19,17 @@
     <tbody>
     #{list items:station.readings, as:'reading'}
     <tr>
-        <td>${reading.date}</td>
+        <td>${new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(reading.date)}</td>
         <td>${reading.code}</td>
-        <td>${reading.temperature}</td>
-        <td>${reading.windSpeed}</td>
+        <td>${String.format("%.1f", reading.temperature)}</td>
+        <td>${String.format("%.1f", reading.windSpeed)}</td>
         <td>${reading.windDirection}</td>
         <td>${reading.pressure}</td>
         <td>
-            <form action="/dashboard/deleteReading/${station.id}/${reading.id}" method="POST">
+            <form class="delete-form" action="/dashboard/deleteReading/${station.id}/${reading.id}" method="POST">
                 <div class="field">
                     <div class="control">
-                        <button class="button is-link is-danger" type="submit">Delete</button>
+                        <button class="button is-link is-danger del" type="submit">Delete</button>
                     </div>
                 </div>
             </form>
@@ -37,21 +37,30 @@
     </tr>
     #{/list}
     <tr>
-        <form action="/dashboard/${station.id}/addReading" method="POST">
+        <form class="input-form" action="/dashboard/${station.id}/addReading" method="POST">
             <!--            <input type="hidden" name="id" value=${station.id}>-->
             <td>
-                <div class="field">
+                <div class=z"field">
                     <!--                <label class="label">Code</label>-->
                     <div class="control">
-                        <input class="input" name="code" placeholder="" disabled>
+                        <input class="input" name="date" placeholder="jhhhj" disabled>
                     </div>
                 </div>
             </td>
             <td>
                 <div class="field">
                     <!--                <label class="label">Code</label>-->
-                    <div class="control">
-                        <input class="input" name="code" placeholder="00">
+                    <div class="control select">
+                        <select class="input" name="code">
+                            <option value="100" selected>100</option>
+                            <option value="200">200</option>
+                            <option value="300">300</option>
+                            <option value="400">400</option>
+                            <option value="500">500</option>
+                            <option value="600">600</option>
+                            <option value="700">700</option>
+                            <option value="800">800</option>
+                        </select>
                     </div>
                 </div>
             </td>
@@ -59,7 +68,7 @@
                 <div class="field">
                     <!--                <label class="label">Temperature</label>-->
                     <div class="control">
-                        <input class="input" name="temperature" placeholder="00.0C">
+                        <input type="number" step="any" class="input" name="temperature" placeholder="00.0C" required>
                     </div>
                 </div>
             </td>
@@ -67,7 +76,7 @@
                 <div class="field">
                     <!--                <label class="label">Wind Speed</label>-->
                     <div class="control">
-                        <input class="input" name="windSpeed" placeholder="00.00kMh">
+                        <input type="number" step="any" class="input" name="windSpeed" placeholder="00.00kMh" required>
                     </div>
                 </div>
             </td>
@@ -75,7 +84,7 @@
                 <div class="field">
                     <!--                <label class="label">Wind Direction</label>-->
                     <div class="control">
-                        <input class="input" name="windDirection" placeholder="000deg">
+                        <input type="number" class="input" name="windDirection" placeholder="000deg" required>
                     </div>
                 </div>
             </td>
@@ -83,14 +92,14 @@
                 <div class="field">
                     <!--                <label class="label">Pressure</label>-->
                     <div class="control">
-                        <input class="input" name="pressure" placeholder="000hPa">
+                        <input type="number" class="input" name="pressure" placeholder="000hPa" required>
                     </div>
                 </div>
             </td>
             <td>
                 <div class="field">
                     <div class="control">
-                        <button class="button is-link is-success" type="submit">Submit Report</button>
+                        <button class="button is-link is-success" type="submit">Submit</button>
                     </div>
                 </div>
             </td>

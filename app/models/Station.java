@@ -13,10 +13,10 @@ public class Station extends Model {
     @OneToMany(cascade = CascadeType.ALL)
     public List<Reading> readings = new ArrayList<Reading>();
     public String name;
-    public String weather, windDirection;
+    public String weather, windDirection, tempTrend,  windTrend,  pressureTrend;
     public int pressure;
     public int windBFT;
-    public double windChill, tempC, tempF, lat, lng, max, min, windMax, windMin, pressureMax, pressureMin;
+    public double windChill, tempC, tempF, lat, lng, max, min, windMax, windMin, windSpeed, pressureMax, pressureMin;
 
     public Station(String name, double lat, double lng) {
 

@@ -20,7 +20,7 @@ public class Dashboard extends Controller {
         if (!session.contains("logged_in_Memberid")) { redirect("/login");}
         Logger.info("Rendering Admin");
         Member member = Account.getCurrentMember();
-
+        System.out.println("dshhjsd " + String.valueOf(member.stations.get(0).readings.size()));
         for (Station station: member.stations) {
             if (station.readings.size() >= 1) {
                 Reading r = station.readings.get(station.readings.size() - 1);
@@ -28,11 +28,12 @@ public class Dashboard extends Controller {
                 // Temp pane
                 station.weather = getWeather(r.code);
 
-                // Weather pane
+                // Temp pane
                 station.tempC = r.temperature;
                 station.tempF = getTempF(r.temperature);
                 station.max = getMax(station, "t");
                 station.min = getMin(station, "t");
+                station.tempTrend = stationTempTrend(station);
 
                 // Wind pane
                 station.windBFT = getWindBFT(r.windSpeed);
@@ -40,14 +41,17 @@ public class Dashboard extends Controller {
                 station.windChill = getWindChill(r.temperature, r.windSpeed);
                 station.windMax = getMax(station, "w");
                 station.windMin = getMin(station, "w");
+                station.windSpeed = r.windSpeed;
+                station.windTrend = stationWindTrend(station);
 
                 // Pressure pane
                 station.pressure = r.pressure;
                 station.pressureMax = getMax(station, "p");
                 station.pressureMin = getMin(station, "p");
+                station.pressureTrend = stationPressureTrend(station);
             }
         }
-        member.save();
+//        member.save();
         member.stations.sort((s1, s2) -> s1.name.compareToIgnoreCase(s2.name));
         render("dashboard.html", member);
     }
@@ -55,18 +59,60 @@ public class Dashboard extends Controller {
     public static void addReading(Long id, int code, float temperature, double windSpeed,  int windDirection, int pressure) {
         Station station = Station.findById(id);
         String date = Reading.getFormattedDate();
-        Reading reading = new Reading(code, temperature, windSpeed, windDirection, pressure, date);
+        Reading reading = new Reading(code, temperature, windSpeed, windDirection, pressure, new Date());
         station.readings.add(reading);
         station.save();
         redirect("/dashboard");
 
     }
 
+    public static String stationTempTrend(Station station) {
+        if (station.readings.size() < 3) {return "";}
+        double temp3 = station.readings.get(2).temperature;
+        double temp2 = station.readings.get(1).temperature;
+        double temp1 = station.readings.get(0).temperature;
+        if (temp3 > temp2 && temp2 > temp1) {
+            return "up";
+        } else if (temp3 < temp2 && temp2 < temp1) {
+            return "down";
+        }
+        return "";
+    }
+
+    public static String stationWindTrend(Station station) {
+        if (station.readings.size() < 3) {return "";}
+        double temp3 = station.readings.get(2).windSpeed;
+        double temp2 = station.readings.get(1).windSpeed;
+        double temp1 = station.readings.get(0).windSpeed;
+        if (temp3 > temp2 && temp2 > temp1) {
+            return "up";
+        } else if (temp3 < temp2 && temp2 < temp1) {
+            return "down";
+        }
+        return "";
+    }
+
+    public static String stationPressureTrend(Station station) {
+        if (station.readings.size() < 3) {return "";}
+        double temp3 = station.readings.get(2).pressure;
+        double temp2 = station.readings.get(1).pressure;
+        double temp1 = station.readings.get(0).pressure;
+        if (temp3 > temp2 && temp2 > temp1) {
+            return "up";
+        } else if (temp3 < temp2 && temp2 < temp1) {
+            return "down";
+        }
+        return "";
+    }
+
+
     public static void deleteReading(Long stationId, Long readingId) {
-        Station station = Station.findById(stationId);
+        Member member = Account.getCurrentMember();
         Reading reading = Reading.findById(readingId);
+        Station station = Station.findById(stationId);
         station.readings.remove(reading);
         station.save();
+        reading.delete();
         redirect("/dashboard");
     }
 

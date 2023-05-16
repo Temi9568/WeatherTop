@@ -29,12 +29,12 @@ public class Account extends Controller {
 
 
     public static void login(Boolean firstAttempt) {
+        firstAttempt = firstAttempt == null ? true : firstAttempt;
+        if (!session.contains("logged_in_Memberid")) {render("login.html", firstAttempt);}
         Member member = getCurrentMember();
-        firstAttempt = firstAttempt == null ? true : firstAttempt;  // if not firstAttempt, then incorrect password text shown
         if (member == null) {
             render("login.html", firstAttempt);
         }
-
         redirect("/");
     }
 

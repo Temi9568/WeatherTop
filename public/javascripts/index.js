@@ -19,7 +19,7 @@ for (let i=0;  i < icons.length; i++) {
 }
 
 // Form Validation
-const forms = document.querySelectorAll("form");
+const forms = document.querySelectorAll("form.input-form");
 forms.forEach(form => {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -60,6 +60,41 @@ forms.forEach(form => {
     });
 });
 
+
+const deleteForms = document.querySelectorAll('form.delete-form');
+deleteForms.forEach(form => {
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        if (confirm("Are you sure you want to delete this?")) {
+            console.log("dsjdsjhdshjsd");
+            e.target.submit();
+        } else {
+            return false;
+        }
+    })
+})
+
+
+const displayCurrentDate = () => {
+    let now = new Date();
+    const options = {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    };
+    const formattedDate = now.toISOString().slice(0, 19).replace("T", " ");
+
+    let elems = document.querySelectorAll('input[name="date"]')
+    elems.forEach(elem => {
+        elem.placeholder = formattedDate;
+    })
+}
+
+setInterval(displayCurrentDate, 1000);
 
 
 

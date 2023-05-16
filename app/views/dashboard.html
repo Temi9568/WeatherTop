@@ -11,13 +11,13 @@
 
 <!--Add station-->
 <div class="content box">
-    <form id="addStation" action="/dashboard/addStation" method="POST" onsubmit="return validateForm(event)">
+    <form class="input-form" id=addStation" action="/dashboard/addStation" method="POST">
         <div class="columns is-multiline">
             <div class="column is-one-third">
                 <div class="field">
                     <label id="addStationName" class="label title" style="font-size: 1.5em;">Name</label>
                     <div class="control">
-                        <input class="input is-normal" type="text" name="name" placeholder="Name">
+                        <input class="input is-normal string" type="text" name="name" placeholder="Name" required>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                 <div class="field">
                     <label class="label title" style="font-size: 1.5em;">Lat</label>
                     <div class="control">
-                        <input class="input is-normal" type="text" name="lat" id="latInput" placeholder="00.00">
+                        <input class="input is-normal" type="number" step="any" name="lat" id="latInput" placeholder="00.00" required>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 <div class="field">
                     <label class="label title" style="font-size: 1.5em;">Lng</label>
                     <div class="control">
-                        <input class="input is-normal" type="text" name="lng" id="lngInput" placeholder="00.00">
+                        <input class="input is-normal" type="number" step="any" name="lng" id="lngInput" placeholder="00.00" required>
                     </div>
                 </div>
             </div>
