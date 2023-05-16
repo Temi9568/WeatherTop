@@ -6,7 +6,7 @@ public class Account extends Controller {
 
     public static Member getCurrentMember() {
         String memberId = session.get("logged_in_Memberid");
-        return  Member.findById(Long.parseLong(memberId));
+        return Member.findById(Long.parseLong(memberId));
     }
 
     public static void editMemberDetails(String firstname, String lastname, String email, String password) {
@@ -26,8 +26,14 @@ public class Account extends Controller {
     }
 
 
-    public static void login() {
-        render("login.html");
+    public static void login(Boolean firstAttempt) {
+        Member member = getCurrentMember();
+        firstAttempt = firstAttempt == null ? true : firstAttempt;  // if not firstAttempt, then incorrect password text shown
+        if (member == null) {
+            render("login.html", firstAttempt);
+        }
+
+        redirect("/");
     }
 
 
@@ -42,7 +48,7 @@ public class Account extends Controller {
             session.put("logged_in_Memberid", member.id);
             redirect("/dashboard");
         }
-        redirect("/login");
+        login(false);
     }
 
     public static void signup() {
