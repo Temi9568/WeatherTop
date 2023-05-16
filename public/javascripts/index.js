@@ -35,15 +35,15 @@ forms.forEach(form => {
                 hasErrors = true;
             }
         });
-
-        // Email Validation
-        let emailFields = form.querySelectorAll('input.email');
-        emailFields.forEach(elem => {
-            if (!elem.value.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
-                alert(`Please enter a valid ${elem.name}.`);
-                hasErrors = true;
-            }
-        });
+        //
+        // // Email Validation
+        // let emailFields = form.querySelectorAll('input.email');
+        // emailFields.forEach(elem => {
+        //     if (!elem.value.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+        //         alert(`Please enter a valid ${elem.name}.`);
+        //         hasErrors = true;
+        //     }
+        // });
 
         // Password Validation
         let passwordFields = form.querySelectorAll('input.password');

@@ -29,7 +29,11 @@
                 <p style="margin:0">${String.format("%.1f", _station.tempF)}F</p>
                 <p style="margin:0">Max: ${String.format("%.1f", _station.max)}</p>
                 <p style="margin:0; display: inline">Min: ${String.format("%.1f", _station.min)}</p>
-                %{ if (_station.tempTrend) { }%
+                %{ if (_station.tempTrend == "up") { }%
+                <span class="icon is-large has-text-success" style="display: inline; float: right;">
+                            <i class="fa-solid fa-arrow-trend-${_station.tempTrend} fa-2x"></i>
+                        </span>
+                %{ } else if (_station.tempTrend == "down") { }%
                 <span class="icon is-large has-text-danger" style="display: inline; float: right;">
                             <i class="fa-solid fa-arrow-trend-${_station.tempTrend} fa-2x"></i>
                         </span>
@@ -51,7 +55,11 @@
                 <p style="margin:0">${String.format("%.1f", _station.windChill)}</p>
                 <p style="margin:0">Max: ${String.format("%.1f", _station.windMax)}</p>
                 <p style="margin:0;display: inline;">Min: ${String.format("%.1f", _station.Max)}</p>
-                %{ if (_station.windTrend) { }%
+                %{ if (_station.windTrend == "up") { }%
+                <span class="icon is-large has-text-success" style="display: inline; float: right;">
+                            <i class="fa-solid fa-arrow-trend-${_station.windTrend} fa-2x"></i>
+                        </span>
+                %{ } else if (_station.windTrend == "down") { }%
                 <span class="icon is-large has-text-danger" style="display: inline; float: right;">
                             <i class="fa-solid fa-arrow-trend-${_station.windTrend} fa-2x"></i>
                         </span>
@@ -67,10 +75,14 @@
                 <p style="margin:0">${_station.pressure} hpa</p>
                 <p style="margin:0">Max: ${String.format("%.1f", _station.pressureMax)}</p>
                 <p style="margin:0; display: inline;">Min: ${String.format("%.1f", _station.pressureMin)}</p>
-                %{ if (_station.pressureTrend) { }%
+                %{ if (_station.pressureTrend == "up") { }%
+                <span class="icon is-large has-text-success" style="display: inline; float: right;">
+                     <i class="fa-solid fa-arrow-trend-${_station.pressureTrend} fa-2x"></i>
+                </span>
+                %{ } else if (_station.pressureTrend == "down") { }%
                 <span class="icon is-large has-text-danger" style="display: inline; float: right;">
-                            <i class="fa-solid fa-arrow-trend-${_station.pressureTrend} fa-2x"></i>
-                        </span>
+                     <i class="fa-solid fa-arrow-trend-${_station.pressureTrend} fa-2x"></i>
+                </span>
                 %{ } }%
             </div>
         </div>
