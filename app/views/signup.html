@@ -5,7 +5,7 @@
 
 <div class="columns is-centered">
     <div class="column is-5-tablet is-4-desktop is-3-widescreen">
-        <form action="/register" class="box" method="POST">
+        <form action="/register" class="box" id="signup-form" method="POST">
             <div class="field">
                 <label class="label">First Name</label>
                 <div class="control has-icons-left">
@@ -31,6 +31,11 @@
                     <span class="icon is-small is-left">
                         <i class="fa fa-envelope"></i>
                     </span>
+                    %{ if (!firstAttempt) { }%
+                        <div id="email-exists" class="content has-text">
+                            <h2 style="color:red; font-size: 0.6rem; margin-top:0.75em"><b>The email entered already exists. Please use a different email!</b></h2>
+                        </div>
+                    %{ } }%
                 </div>
             </div>
             <div class="field">
@@ -51,3 +56,5 @@
     </div>
 </div>
 </div>
+
+

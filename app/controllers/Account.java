@@ -1,6 +1,8 @@
 package controllers;
 import models.Member;
 import play.mvc.Controller;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Account extends Controller {
 
@@ -39,7 +41,7 @@ public class Account extends Controller {
 
     public static void logout() {
        session.clear();
-       redirect("/login");
+       redirect("/");
     }
 
     public static void authenticate(String email, String password) {
@@ -51,13 +53,24 @@ public class Account extends Controller {
         login(false);
     }
 
-    public static void signup() {
-        render("signup.html");
+    public static void signup(Boolean firstAttempt) {
+        firstAttempt = firstAttempt == null ? true : firstAttempt;
+        render("signup.html", firstAttempt);
     }
+
     public static void register(String firstname, String lastname, String email, String password) {
-        Member member = new Member(firstname, lastname, email, password);
-        member.save();
-        session.put("logged_in_Memberid", member.id);
-        redirect("/dashboard");
+        List<Member> members = Member.findAll();
+        ArrayList<String> emails = new ArrayList<>();
+        for (Member member: members) {
+            emails.add(member.email);
+        }
+        if (emails.contains(email)) {
+            signup(false);
+        } else {
+            Member member = new Member(firstname, lastname, email, password);
+            member.save();
+            session.put("logged_in_Memberid", member.id);
+            redirect("/dashboard");
+        }
     }
 }

@@ -20,42 +20,47 @@ for (let i=0;  i < icons.length; i++) {
 
 // Form Validation
 const forms = document.querySelectorAll("form");
-
 forms.forEach(form => {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
+
+        // Flag to track if there are any validation errors
+        let hasErrors = false;
 
         // String Validation
         let stringFields = form.querySelectorAll('input.string');
         stringFields.forEach(elem => {
             if (!elem.value.match(/^[A-Za-z\s]*$/)) {
-                alert(`Please enter a valid ${elem.name.toUpperCase()}. It must contain only letters.`)
-                return
+                alert(`Please enter a valid ${elem.name.toUpperCase()}. It must contain only letters.`);
+                hasErrors = true;
             }
-        })
+        });
 
-        // Email Validation todo (can delete as bulma already have their own validator)
+        // Email Validation
         let emailFields = form.querySelectorAll('input.email');
         emailFields.forEach(elem => {
             if (!elem.value.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
-                alert(`Please enter a valid ${elem.name}.`)
-                return
+                alert(`Please enter a valid ${elem.name}.`);
+                hasErrors = true;
             }
-        })
+        });
 
         // Password Validation
         let passwordFields = form.querySelectorAll('input.password');
         passwordFields.forEach(elem => {
             if (elem.value.length < 8 || !elem.value.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
-                alert(`Please enter a valid ${elem.name}. ${elem.name} must be at least 8 characters and contain one number and special character.`)
-                return
+                alert(`Please enter a valid ${elem.name}. ${elem.name} must be at least 8 characters and contain one number and special character.`);
+                hasErrors = true;
             }
-        })
+        });
 
-        e.target.submit();
+        if (!hasErrors) {
+            e.target.submit();
+        }
+    });
+});
 
-    })
-})
+
 
 
 
