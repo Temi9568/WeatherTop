@@ -20,7 +20,6 @@ public class Dashboard extends Controller {
         if (!session.contains("logged_in_Memberid")) { redirect("/login");}
         Logger.info("Rendering Admin");
         Member member = Account.getCurrentMember();
-        System.out.println("dshhjsd " + String.valueOf(member.stations.get(0).readings.size()));
         for (Station station: member.stations) {
             if (station.readings.size() >= 1) {
                 Reading r = station.readings.get(station.readings.size() - 1);

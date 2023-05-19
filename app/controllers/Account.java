@@ -19,7 +19,7 @@ public class Account extends Controller {
         member.email = email;
         member.password = password;
         member.save();
-        redirect("/logout");
+        redirect("/member");
     }
 
     public static void memberPage() {

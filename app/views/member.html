@@ -4,7 +4,7 @@
 
 
 <div class="content box">
-    <form id="edit-member-details" action="/member" class="box input-form" method="POST" onsubmit="updateMemberDetails(event)">
+    <form id="edit-member-details" action="/member" class="box" method="POST" onsubmit="updateMemberDetails(event)">
         <div class="columns is-centered">
             <div class="column is-two-thirds">
                 <div class="field is-horizontal">
@@ -17,6 +17,11 @@
                                 <input type="text" name="firstname" placeholder="${member.firstName}" class="input" disabled required>
                             </div>
                         </div>
+                    </div>
+                    <div class="is-centered" style="margin-left: 20px;">
+                        <button type="button"  class="button is-dark unedited">
+                            Edit Details!
+                        </button>
                     </div>
                 </div>
             </div>
@@ -34,6 +39,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="is-centered" style="margin-left: 20px;">
+                        <button type="button"  class="button is-dark unedited">
+                            Edit Details!
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,6 +59,11 @@
                                 <input type="email" name="email" placeholder="${member.email}" class="input" disabled required>
                             </div>
                         </div>
+                    </div>
+                    <div class="is-centered" style="margin-left: 20px;">
+                        <button type="button"  class="button is-dark unedited">
+                            Edit Details!
+                        </button>
                     </div>
                 </div>
             </div>
@@ -66,17 +81,20 @@
                             </div>
                         </div>
                     </div>
+                    <div class="is-centered" style="margin-left: 20px;">
+                        <button type="button" class="button is-dark unedited">
+                            Edit Details!
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
-
         <div class="columns is-centered pt-50">
-            <button class="button is-dark unedited">
-                Edit Details!
+            <button type="submit" class="button is-success unedited" disabled>
+                Save Changes
             </button>
         </div>
-
     </form>
 </div>
 
@@ -86,22 +104,35 @@
 
 <script>
 
+    const formButtons =  document.querySelector("#edit-member-details").querySelectorAll("button[type='button']");
+    const formInputs =  document.querySelector("#edit-member-details").querySelectorAll("input");
+    const submitBtn = document.querySelector("#edit-member-details").querySelector("button[type='submit']");
+
+
+    formButtons.forEach((btn, i) => {
+        btn.addEventListener("click", e => {
+            if(e.target.classList.contains("unedited")) {
+                e.target.innerText = "Save";
+                e.target.classList.replace("is-dark", "is-success");
+                e.target.classList.remove("unedited");
+                formInputs[i].disabled = false;
+            } else {
+                e.target.classList.replace("is-success", "is-dark");
+                formInputs[i].disabled = true;
+                e.target.classList.add("unedited");
+                e.target.innerText = "Edit Details!";
+                submitBtn.disabled = false;
+                // document.querySelector("#edit-member-details").submit();
+            }
+        })
+    })
+
+
     const updateMemberDetails = (event) => {
         event.preventDefault();
-        const formInputs = document.querySelector("#edit-member-details").querySelectorAll("input");
 
-        if ( event.target.querySelector("button").classList.contains("unedited")) {
-            formInputs.forEach(input => {
-                input.disabled = false;
-            })
-            event.target.querySelector("button").classList.toggle("unedited");
-            event.target.querySelector("button").innerText = "Save Changes!";
-            event.target.querySelector("button").classList.replace("is-dark", "is-success");
-        } else {
-            if (confirm("Are you sure you want to save these changes?")) {
-                formInputs.forEach(input => input.disabled = true);
-                event.target.submit();
-            }
+        if (confirm("Are you sure you want to save these changes?")) {
+            event.target.submit();
         }
     }
 
