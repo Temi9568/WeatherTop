@@ -1,257 +1,60 @@
 package controllers;
 
+import utils.*;
+
 import models.*;
-import play.Logger;
 import play.mvc.Controller;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Collections;
-import java.util.Comparator;
-import java.text.DateFormat;
 import java.util.Date;
 
+
+/**
+ * Controller class for handling the "Dashboard" page.
+ */
 public class Dashboard extends Controller {
-
-
+    /**
+     * Renders "dashboard.html" template and a Member object is passed to template.
+     */
     public static void index() {
-        if (!session.contains("logged_in_Memberid")) { redirect("/login");}
-        Logger.info("Rendering Admin");
-        Member member = Account.getCurrentMember();
-        for (Station station: member.stations) {
-            if (station.readings.size() >= 1) {
-                Reading r = station.readings.get(station.readings.size() - 1);
+        if (!session.contains("logged_in_Memberid")) {
+            redirect("/login");
+        } // redirect to login page if not logged.
+        Member member = Account.getCurrentMember(); // Gets member object
+
+        // Following code sets the stations additional field which is used for the station panes.
+        for (Station station : member.stations) {
+            if (station.readings.size() >= 1) { // If no readings then unable to set additional station fields.
+                Reading r = station.readings.get(station.readings.size() - 1);  // get most recent reading
+
+                // Weather pane
+                station.weather = Conversion.convertCodeToWeather(r.code);
 
                 // Temp pane
-                station.weather = getWeather(r.code);
-
-                // Temp pane
-                station.tempC = r.temperature;
-                station.tempF = getTempF(r.temperature);
-                station.max = getMax(station, "t");
-                station.min = getMin(station, "t");
-                station.tempTrend = stationTempTrend(station);
+                station.tempC = r.temperature;  // tempC of station will be stations most recent readings temp
+                station.tempF = Conversion.convertToTempF(r.temperature);   // convert tempC to tempF
+                station.max = MaxMin.getMax(station, "t");  // get max temp (t for temp)
+                station.min = MaxMin.getMin(station, "t");  // get min temp (t for temp)
+                station.tempTrend = Trend.getStationTempTrend(station); // sets station temp trend
 
                 // Wind pane
-                station.windBFT = getWindBFT(r.windSpeed);
-                station.windDirection = getWindDirection(r.windDirection);
-                station.windChill = getWindChill(r.temperature, r.windSpeed);
-                station.windMax = getMax(station, "w");
-                station.windMin = getMin(station, "w");
-                station.windSpeed = r.windSpeed;
-                station.windTrend = stationWindTrend(station);
+                station.windBFT = Conversion.convertToWindBFT(r.windSpeed); // sets station wind bft.
+                station.windDirection = Conversion.convertToWindDirectionString(r.windDirection);   // literal
+                station.windChill = Conversion.convertToWindChill(r.temperature, r.windSpeed);  // literal
+                station.windMax = MaxMin.getMax(station, "w");  // get max wind (w for wind)
+                station.windMin = MaxMin.getMin(station, "w");  // get min temp (w for wind)
+                station.windSpeed = r.windSpeed;    // wind speed of station will be stations most recent readings ws
+                station.windTrend = Trend.getStationWindTrend(station); // sets station wind trend
 
                 // Pressure pane
-                station.pressure = r.pressure;
-                station.pressureMax = getMax(station, "p");
-                station.pressureMin = getMin(station, "p");
-                station.pressureTrend = stationPressureTrend(station);
-            }
-        }
-//        member.save();
-        member.stations.sort((s1, s2) -> s1.name.compareToIgnoreCase(s2.name));
-        render("dashboard.html", member);
-    }
-
-    public static void addReading(Long id, int code, float temperature, double windSpeed,  int windDirection, int pressure) {
-        Station station = Station.findById(id);
-        String date = Reading.getFormattedDate();
-        Reading reading = new Reading(code, temperature, windSpeed, windDirection, pressure, new Date());
-        station.readings.add(reading);
-        station.save();
-        redirect("/dashboard");
-
-    }
-
-    public static String stationTempTrend(Station station) {
-        if (station.readings.size() < 3) {return "";}
-        double temp3 = station.readings.get(2).temperature;
-        double temp2 = station.readings.get(1).temperature;
-        double temp1 = station.readings.get(0).temperature;
-        if (temp3 > temp2 && temp2 > temp1) {
-            return "up";
-        } else if (temp3 < temp2 && temp2 < temp1) {
-            return "down";
-        }
-        return "";
-    }
-
-    public static String stationWindTrend(Station station) {
-        if (station.readings.size() < 3) {return "";}
-        double temp3 = station.readings.get(2).windSpeed;
-        double temp2 = station.readings.get(1).windSpeed;
-        double temp1 = station.readings.get(0).windSpeed;
-        if (temp3 > temp2 && temp2 > temp1) {
-            return "up";
-        } else if (temp3 < temp2 && temp2 < temp1) {
-            return "down";
-        }
-        return "";
-    }
-
-    public static String stationPressureTrend(Station station) {
-        if (station.readings.size() < 3) {return "";}
-        double temp3 = station.readings.get(2).pressure;
-        double temp2 = station.readings.get(1).pressure;
-        double temp1 = station.readings.get(0).pressure;
-        if (temp3 > temp2 && temp2 > temp1) {
-            return "up";
-        } else if (temp3 < temp2 && temp2 < temp1) {
-            return "down";
-        }
-        return "";
-    }
-
-
-    public static void deleteReading(Long stationId, Long readingId) {
-        Member member = Account.getCurrentMember();
-        Reading reading = Reading.findById(readingId);
-        Station station = Station.findById(stationId);
-        station.readings.remove(reading);
-        station.save();
-        reading.delete();
-        redirect("/dashboard");
-    }
-
-    public static void addStation(String name, double lat, double lng) {
-        Member member = Account.getCurrentMember();
-        Station station = new Station(name, lat, lng);
-        member.stations.add(station);
-        member.save();
-        redirect("/dashboard");
-    }
-
-    public static void deleteStation(Long id) {
-        Member member = Account.getCurrentMember();
-        Station station = Station.findById(id);
-        member.stations.remove(station);
-        member.save();
-        station.delete();
-        redirect("/dashboard");
-    }
-
-
-
-    public static String getWeather(int code) {
-        String weather;
-        switch(code) {
-            case 100: weather = "Clear";
-            break;
-            case 200: weather = "Patial Clouds";
-            break;
-            case 300: weather = "Cloudy";
-            break;
-            case 400: weather = "Light Showers";
-            break;
-            case 500: weather = "Heavy Showers";
-            break;
-            case 600: weather = "Rain";
-            break;
-            case 700: weather = "Snow";
-            break;
-            case 800: weather = "Thunder";
-            break;
-            default: weather = "Varied";
-            break;
-        }
-        return weather;
-    }
-
-    public static double getTempF(double tempCelcius) {
-        return tempCelcius * (9.0/5.0) + 32;
-    }
-
-    public static double getMax(Station st, String type) {
-        ArrayList<Double> temps = new ArrayList<Double>();
-        double maxValue = 0;
-
-        for (Reading reading: st.readings) {
-            if (type.equals("w")) {
-                maxValue = Math.max(maxValue, reading.windSpeed);
-            } else if (type.equals("t")) {
-                maxValue = Math.max(maxValue, reading.temperature);
-            } else {
-                maxValue = Math.max(maxValue, reading.pressure);
+                station.pressure = r.pressure;  // pressure of station will be stations most recent readings pressure
+                station.pressureMax = MaxMin.getMax(station, "p");  // get max pressure (p for pressure)
+                station.pressureMin = MaxMin.getMin(station, "p");   // get min pressure (p for pressure)
+                station.pressureTrend = Trend.getStationPressureTrend(station); // sets station pressure trend
             }
         }
 
-        return maxValue;
-
-    }
-
-    public static double getMin(Station st, String type) {
-        ArrayList<Double> temps = new ArrayList<Double>();
-        double minValue = 100000;
-
-        for (Reading reading: st.readings) {
-            if (type.equals("w")) {
-                minValue = Math.min(minValue, reading.windSpeed);
-            } else if (type.equals("t")) {
-                minValue = Math.min(minValue, reading.temperature);
-            } else {
-                minValue = Math.min(minValue, reading.pressure);
-            }
-        }
-
-        return minValue;
-
-    }
-
-    public static int getWindBFT(double windSpeed) {
-        List<int[]> conversions = new ArrayList<int[]>();
-        conversions.add(new int[] {0, 1, 0});
-        conversions.add(new int[] {1, 5, 1});
-        conversions.add(new int[] {6, 11, 2});
-        conversions.add(new int[] {12, 19, 3});
-        conversions.add(new int[] {20, 28, 4});
-        conversions.add(new int[] {29, 38, 5});
-        conversions.add(new int[] {39, 49, 6});
-        conversions.add(new int[] {50, 61, 7});
-        conversions.add(new int[] {63, 74, 8});
-        conversions.add(new int[] {75, 88, 9});
-        conversions.add(new int[] {89, 102, 10});
-        conversions.add(new int[] {103, 117, 12});
-
-        for (int[] c: conversions) {
-            if (windSpeed > c[0] && windSpeed <= c[1]) {
-                return c[2];
-            }
-        }
-        return 0;
-    }
-
-    public static String getWindDirection(double windDirection){
-        String windD;
-        HashMap<String, String> windMap = new HashMap<>();
-        windMap.put("N", "North");
-        windMap.put("NNE", "North North East");
-        windMap.put("NE", "North East");
-        windMap.put("ENE", "East North East");
-        windMap.put("E", "East");
-        windMap.put("ESE", "East South East");
-        windMap.put("SE", "South East");
-        windMap.put("SSE", "South South East");
-        windMap.put("S", "South");
-        windMap.put("SSW", "South South West");
-        windMap.put("SW", "South West");
-        windMap.put("WSW", "West South West");
-        windMap.put("W", "West");
-        windMap.put("WNW", "West North West");
-        windMap.put("NW", "North West");
-        windMap.put("NNW", "North North West");
-        windMap.put("Unknown", "N/A");
-
-        String[] directions = {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"};
-        int index = (int) ((windDirection / 22.5) + 0.5) % 16;    // Casting or else will get err as return is long
-        return windMap.get(directions[index]);
-    }
-
-
-    public static double getWindChill(double tempCelsius, double windSpeed) {
-        double value = 13.12 + 0.6215*tempCelsius - 11.37*Math.pow(windSpeed, 0.16) + (0.3965*tempCelsius)*Math.pow(windSpeed, 0.16);
-        return Double.parseDouble(String.format("%.1f",  value));
+        member.stations.sort((s1, s2) -> s1.name.compareToIgnoreCase(s2.name)); // Sots station in alphabetical order
+        render("dashboard.html", member);   // render dashboard.html and passes member object to template
     }
 
 

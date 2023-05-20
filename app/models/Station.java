@@ -19,7 +19,6 @@ public class Station extends Model {
     public double windChill, tempC, tempF, lat, lng, max, min, windMax, windMin, windSpeed, pressureMax, pressureMin;
 
     public Station(String name, double lat, double lng) {
-
         this.name = name;
         this.lat = lat;
         this.lng = lng;

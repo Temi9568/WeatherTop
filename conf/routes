@@ -3,12 +3,12 @@
 # ~~~~
 
 # Home page
-GET     /                                       Application.index
+GET     /                                       Home.index
 GET     /dashboard                              Dashboard.index
-POST    /dashboard/{id}/addReading              Dashboard.addReading
-POST    /dashboard/deleteReading/{stationId}/{readingId}           Dashboard.deleteReading
-POST    /dashboard/addStation                   Dashboard.addStation
-POST    /dashboard/deleteStation/{id}           Dashboard.deleteStation
+POST    /dashboard/{id}/addReading              StationCtrl.addReading
+POST    /dashboard/deleteReading/{stationId}/{readingId}            StationCtrl.deleteReading
+POST    /dashboard/addStation                   StationCtrl.addStation
+POST    /dashboard/deleteStation/{id}           StationCtrl.deleteStation
 GET     /about                                  About.index
 GET     /admin                                  Admin.index
 GET     /member                                 Account.memberPage
@@ -18,7 +18,7 @@ GET     /logout                                 Account.logout
 POST    /authenticate                           Account.authenticate
 GET     /signup                                 Account.signup
 POST    /register                               Account.register
-GET     /station/{id}                           StationView.index
+GET     /station/{id}                           StationCtrl.index
 
 GET     /playlists/{id}                         PlaylistCtrl.index
 GET     /playlists/{id}/deletesong/{songid}     PlaylistCtrl.deleteSong

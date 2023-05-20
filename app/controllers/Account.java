@@ -1,9 +1,14 @@
 package controllers;
+
 import models.Member;
 import play.mvc.Controller;
+
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Controller class for handling the "Member" page.
+ */
 public class Account extends Controller {
 
     public static Member getCurrentMember() {
@@ -14,13 +19,15 @@ public class Account extends Controller {
     public static void editMemberDetails(String firstname, String lastname, String email, String password) {
         String memberId = session.get("logged_in_Memberid");
         Member member = Member.findById(Long.parseLong(memberId));
-        member.firstName = firstname;
-        member.lastName = lastname;
-        member.email = email;
-        member.password = password;
-        member.save();
+        if (firstname != null ) { member.firstName = firstname;}
+        if (lastname != null ) {  member.lastName = lastname;}
+        if (email != null ) {  member.email = email;}
+        if (password != null ) {  member.password = password;}
+//        member.save();
         redirect("/member");
     }
+
+
 
     public static void memberPage() {
         Member member = getCurrentMember();
@@ -30,7 +37,9 @@ public class Account extends Controller {
 
     public static void login(Boolean firstAttempt) {
         firstAttempt = firstAttempt == null ? true : firstAttempt;
-        if (!session.contains("logged_in_Memberid")) {render("login.html", firstAttempt);}
+        if (!session.contains("logged_in_Memberid")) {
+            render("login.html", firstAttempt);
+        }
         Member member = getCurrentMember();
         if (member == null) {
             render("login.html", firstAttempt);
@@ -40,8 +49,8 @@ public class Account extends Controller {
 
 
     public static void logout() {
-       session.clear();
-       redirect("/");
+        session.clear();
+        redirect("/");
     }
 
     public static void authenticate(String email, String password) {
@@ -61,7 +70,7 @@ public class Account extends Controller {
     public static void register(String firstname, String lastname, String email, String password) {
         List<Member> members = Member.findAll();
         ArrayList<String> emails = new ArrayList<>();
-        for (Member member: members) {
+        for (Member member : members) {
             emails.add(member.email);
         }
         if (emails.contains(email)) {

@@ -1,15 +1,18 @@
 package controllers;
 
-import play.*;
 import play.mvc.*;
-import java.util.*;
-import models.*;
 
-public class About extends Controller
-{
-  public static void index() {
-    boolean loggedIn = session.contains("logged_in_Memberid");
-    render ("about.html", loggedIn);
-  }
+
+/**
+ * Controller class for handling the "About" page.
+ */
+public class About extends Controller {
+    /**
+     * This renders the "about.html" markup template and a loggedIn (bool) variable is passed to the template.
+     */
+    public static void index() {
+        boolean loggedIn = session.contains("logged_in_Memberid");
+        render("about.html", loggedIn);
+    }
 }
 
