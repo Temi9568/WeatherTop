@@ -81,3 +81,47 @@
         </div>
     </form>
 </div>
+
+<script>
+    // --------------------------- Handles Dynamic features on Member route ---------------------------
+    const formButtons =  document.querySelector("#edit-member-details").querySelectorAll("button[type='button']");
+    const formInputs =  document.querySelector("#edit-member-details").querySelectorAll("input");
+    const submitBtn = document.querySelector("#edit-member-details").querySelector("button[type='submit']");
+
+
+    formButtons.forEach((btn, i) => {
+        btn.addEventListener("click", e => {
+            if(e.target.classList.contains("unedited")) {
+                e.target.innerText = "Save";
+                e.target.classList.replace("is-dark", "is-success");
+                e.target.classList.remove("unedited");
+                formInputs[i].disabled = false;
+            } else {
+                let valid = false;
+                if (i === 3 && formInputs[i].value !== undefined) {  // Password Field
+                    if (formInputs[i].value.length < 8 || !formInputs[i].value.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
+                        alert(`Please enter a valid password. Password must be at least 8 characters and contain one number and special character.`);
+                        formInputs[i].value = orignalPassword;
+                        submitBtn.disabled = true;
+                        return
+                    }
+                }
+                e.target.classList.replace("is-success", "is-dark");
+                formInputs[i].disabled = true;
+                e.target.classList.add("unedited");
+                e.target.innerText = "Edit Details!";
+                submitBtn.disabled = false;
+                // document.querySelector("#edit-member-details").submit();
+            }
+        })
+    })
+
+    document.getElementById("edit-member-details").addEventListener('submit', e => {
+        e.preventDefault();
+
+        if (confirm("Are you sure you want to save these changes?")) {
+            formInputs.forEach(elem => {elem.disabled = false;})
+            e.target.submit();
+        }
+    })
+</script>

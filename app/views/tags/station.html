@@ -1,13 +1,15 @@
+<!--Setting variables passed in so don't have to keep appending _ when referring to it-->
 %{
-    station = _station;
-    isDashboard = _isDashboard;
+station = _station;
+isDashboard = _isDashboard;
 }%
 
-
+<!--Station header (i.e station name and delete button)-->
 <div id=station${station.id} class="content box station">
     <div class="station header">
-        <h1 class="title is-danger" style="display: inline-block;"><a href="/station/${station.id}">${station.name}</a></h1>
-        <form class="delete-form" action="/dashboard/deleteStation/${station.id}" method="POST" style="float: right;">
+        <h1 class="title is-danger" style="display: inline-block;"><a href="/station/${station.id}">${station.name}</a>
+        </h1>
+        <form class="delete-form" action="/dashboard/station/${station.id}/deleteStation" method="POST" style="float: right;">
             <div class="field">
                 <div class="control">
                     <button class="button is-link is-danger del" type="submit">Delete ${station.name}</button>
@@ -20,13 +22,14 @@
     #{displayPanes station:station/}
 
 
-    <!--    Collapsible Button-->
+    <!--    Collapsible Button (different func called if location.href is dashboard or station) -->
     <div>
         <span class="icon is-large collapse-icon">
                 %{ if (isDashboard) { }%
                     <i class="fa-regular fa-square-minus fa-2x" onclick="collapseStationPane(event, ${station.id})"></i>
                 %{ } else { }%
-                    <i class="fa-regular fa-square-plus fa-2x" onclick="collapseReadingsTable(event, ${station.id})"></i>
+                    <i class="fa-regular fa-square-plus fa-2x"
+                       onclick="collapseReadingsTable(event, ${station.id})"></i>
                 %{ } }%
             </span>
     </div>
@@ -34,6 +37,6 @@
 
     <!--    READINGS TABLE (ONLY DISPLAY IF NOT DASHBOARD VIEW) -->
     %{ if (!isDashboard) { }%
-        #{readings station:station/}
+    #{readings station:station/}
     %{ } }%
 </div>

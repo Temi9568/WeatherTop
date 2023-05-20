@@ -5,8 +5,6 @@ import utils.*;
 import models.*;
 import play.mvc.Controller;
 
-import java.util.Date;
-
 
 /**
  * Controller class for handling the "Dashboard" page.
@@ -19,7 +17,7 @@ public class Dashboard extends Controller {
         if (!session.contains("logged_in_Memberid")) {
             redirect("/login");
         } // redirect to login page if not logged.
-        Member member = Account.getCurrentMember(); // Gets member object
+        Member member = MemberCtrl.getCurrentMember(); // Gets member object
         boolean isDashboard = true;
 
         // Following code sets the stations additional field which is used for the station panes.

@@ -7,6 +7,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Reading object for a weather's reading
+ */
 @Entity
 public class Reading extends Model {
 
@@ -17,7 +20,17 @@ public class Reading extends Model {
     public int windDirection;
     public Date date;
 
-    public Reading(int code, double temperature, double windSpeed,  int windDirection, int pressure, Date date) {
+    /**
+     * Creates a new Reading object (Constructor)
+     *
+     * @param code          - weather code (int)
+     * @param temperature   - weather temp in Celcius (double)
+     * @param windSpeed     - weather wind speed (double)
+     * @param windDirection - weather wind direction (int)
+     * @param pressure      - weather pressure (int)
+     * @param date          - date and time of reading (Date)
+     */
+    public Reading(int code, double temperature, double windSpeed, int windDirection, int pressure, Date date) {
         this.code = code;
         this.temperature = temperature;
         this.windSpeed = windSpeed;
@@ -27,21 +40,14 @@ public class Reading extends Model {
 
     }
 
-    public static String getFormattedDate(String dateString) {
-        SimpleDateFormat dform = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            Date dateObject = dform.parse(dateString);
-            System.out.println(dform.format(dateObject));
-            return dform.format(dateObject);
-        } catch (ParseException e) {
-            System.out.println(e);
-            return dateString;
-        }
-    }
-
+    /**
+     * Gets the current date and time as a formatted string.
+     *
+     * @return The formatted date string.
+     */
     public static String getFormattedDate() {
-        SimpleDateFormat dform = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date dateObject = new Date();
-        return dform.format(dateObject);
+        return dateFormat.format(dateObject);
     }
 }

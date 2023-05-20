@@ -14,7 +14,7 @@ public class Home extends Controller {
      */
     public static void index() {
         try {
-            Member member = Account.getCurrentMember();
+            Member member = MemberCtrl.getCurrentMember();
             render("/index.html", member);
         } catch (NumberFormatException e) { // getCurrentMember() func converts String to Long, catches exception here.
             boolean member = false;

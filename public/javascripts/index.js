@@ -1,18 +1,13 @@
-
-
-// Collapsible Button for HTML/CSS
-const icons = document.querySelectorAll(".collapse-icon");
-const tables = document.querySelectorAll(".readings-table");
-
+// --------------------------- Collapsible Button handlers  ---------------------------
 function collapseStationPane(event, i) {
     // Find the readings table to collapse
     let stationPane;
     const stations = document.querySelectorAll(".station");
-    for (let k=0; k<stations.length; k++) {
+    for (let k = 0; k < stations.length; k++) {
         let stationId = stations[k].id;
         try {
             stationId = stationId.match(/\d+/)[0];
-            if (stationId == i) {
+            if (stationId == i) {   // Relatice equality which is fine as stationId is an int while id a String
                 stationPane = stations[k].querySelector('.pane');
                 break;
             }
@@ -34,11 +29,12 @@ function collapseStationPane(event, i) {
         stationPane.classList.toggle('collapsed');
     }
 }
+
 function collapseReadingsTable(event, i) {
-    // Find the readings table to collapse
+    // Find the station that has the pane we want to collapse
     let readingsTable;
     const stations = document.querySelectorAll(".station");
-    for (let k=0; k<stations.length; k++) {
+    for (let k = 0; k < stations.length; k++) {
         let stationId = document.location.href.split("/");
         stationId = stationId[stationId.length - 1];
         if (stationId == i) {
@@ -61,15 +57,13 @@ function collapseReadingsTable(event, i) {
 }
 
 
-
-
-// Form Validation
+// --------------------------- Form Validation ---------------------------
 const forms = document.querySelectorAll("form.input-form");
 forms.forEach(form => {
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        // Flag to track if there are any validation errors
+        // Tracks if there are any validation errors
         let hasErrors = false;
 
         // String Validation
@@ -80,7 +74,6 @@ forms.forEach(form => {
                 hasErrors = true;
             }
         });
-
 
         // Password Validation
         let passwordFields = form.querySelectorAll('input[type="password"]');
@@ -97,14 +90,13 @@ forms.forEach(form => {
     });
 });
 
-
+// --------------------------- Handles delete POST reqs (just ensures dialog box pops up) ---------------------------
 const deleteForms = document.querySelectorAll('form.delete-form');
 deleteForms.forEach(form => {
     form.addEventListener('submit', e => {
         e.preventDefault();
 
         if (confirm("Are you sure you want to delete this?")) {
-            console.log("dsjdsjhdshjsd");
             e.target.submit();
         } else {
             return false;
@@ -112,48 +104,8 @@ deleteForms.forEach(form => {
     })
 })
 
-// const formButtons =  document.querySelector("#edit-member-details").querySelectorAll("button[type='button']");
-// const formInputs =  document.querySelector("#edit-member-details").querySelectorAll("input");
-// const submitBtn = document.querySelector("#edit-member-details").querySelector("button[type='submit']");
-//
-//
-// formButtons.forEach((btn, i) => {
-//     btn.addEventListener("click", e => {
-//         if(e.target.classList.contains("unedited")) {
-//             e.target.innerText = "Save";
-//             e.target.classList.replace("is-dark", "is-success");
-//             e.target.classList.remove("unedited");
-//             formInputs[i].disabled = false;
-//         } else {
-//             let valid = false;
-//             if (i === 3 && formInputs[i].value !== undefined) {  // Password Field
-//                 if (formInputs[i].value.length < 8 || !formInputs[i].value.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
-//                     alert(`Please enter a valid password. Password must be at least 8 characters and contain one number and special character.`);
-//                     formInputs[i].value = orignalPassword;
-//                     submitBtn.disabled = true;
-//                     return
-//                 }
-//             }
-//             e.target.classList.replace("is-success", "is-dark");
-//             formInputs[i].disabled = true;
-//             e.target.classList.add("unedited");
-//             e.target.innerText = "Edit Details!";
-//             submitBtn.disabled = false;
-//             // document.querySelector("#edit-member-details").submit();
-//         }
-//     })
-// })
 
-
-document.getElementById("edit-member-details").addEventListener('submit', e => {
-    e.preventDefault();
-
-    if (confirm("Are you sure you want to save these changes?")) {
-        formInputs.forEach(elem => {elem.disabled = false;})
-        e.target.submit();
-    }
-})
-
+// On the relevant station page, when users want to add new reading, the below ensures the date shown is NOW
 const displayCurrentDate = () => {
     let now = new Date();
     const options = {
