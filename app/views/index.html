@@ -4,40 +4,46 @@
     <title>#{get 'title' /}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet" type="text/css" href="/public/stylesheets/main.css">
 </head>
-
 <body class="container">
-    <section class="box has-background-black" style="margin: 2em;">
-        <div class="columns has-background-black">
-            <div class="column">
-                <img style="width:100%;" alt="weather storm" src="https://images.unsplash.com/photo-1516368694098-47836cebec97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=60">
-            </div>
-
-            <div class="column">
-                <div class="container is-flex is-align-items-center is-justify-content-center" style="height: 100%">
-                    <div class="box has-background-black is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
-                        <div class="box has-background-grey" style="margin-bottom: 1em;">
-                            <div class="icon">
-                                <i class="fa fa-wind fa-2x"></i>
-                            </div>
+<section class="box has-background-black" style="margin: 2em;">
+    <div class="columns has-background-black">
+        <div class="column">
+            <img style="width:100%;" alt="weather storm"
+                 src="https://images.unsplash.com/photo-1516368694098-47836cebec97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&q=60">
+        </div>
+        <div class="column">
+            <div class="container is-flex is-align-items-center is-justify-content-center" style="height: 100%">
+                <div class="box has-background-black is-flex is-flex-direction-column is-align-items-center is-justify-content-center">
+                    <div class="box has-background-grey" style="margin-bottom: 1em;">
+                        <div class="icon">
+                            <i class="fa fa-wind fa-2x"></i>
                         </div>
-                        <div class="content has-text-light">
-                            <h1 style="color: white;">Weather Top</h1>
-                        </div>
-                        <div class="content has-text-light">
-                            %{ if (member) { }%
-                                <button class="button is-info is-rounded" type="button"><a class="has-text-white" href="/dashboard">Welcome back ${member.firstName} - Click to Continue!</a></button>
-                            %{ } else { }%
-                                <button class="button is-info is-solid" type="button"><a class="has-text-white" href="/about">About</a></button>
-                                <button class="button is-info is-solid" type="button"><a class="has-text-white" href="/login">Login</a></button>
-                                <button class="button is-info is-solid" type="button"><a class="has-text-white" href="/signup">Signup</a></button>
-                            %{ } }%
-                        </div>
+                    </div>
+                    <div class="content has-text-light">
+                        <h1 style="color: white;">Weather Top</h1>
+                    </div>
+                    <div class="content has-text-light">
+                        %{ if (member) { }%
+                        <button class="button is-info is-rounded" type="button"><a class="has-text-white"
+                                                                                   href="/dashboard">Welcome back
+                            ${member.firstName} - Click to Continue!</a></button>
+                        %{ } else { }%
+                        <button class="button is-info is-solid" type="button"><a class="has-text-white" href="/about">About</a>
+                        </button>
+                        <button class="button is-info is-solid" type="button"><a class="has-text-white" href="/login">Login</a>
+                        </button>
+                        <button class="button is-info is-solid" type="button"><a class="has-text-white" href="/signup">Signup</a>
+                        </button>
+                        %{ } }%
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 </body>

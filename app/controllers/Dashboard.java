@@ -13,13 +13,14 @@ import java.util.Date;
  */
 public class Dashboard extends Controller {
     /**
-     * Renders "dashboard.html" template and a Member object is passed to template.
+     * Renders "dashboard.html" template and a Member object and (bool indicating its dashboard) is passed to template.
      */
     public static void index() {
         if (!session.contains("logged_in_Memberid")) {
             redirect("/login");
         } // redirect to login page if not logged.
         Member member = Account.getCurrentMember(); // Gets member object
+        boolean isDashboard = true;
 
         // Following code sets the stations additional field which is used for the station panes.
         for (Station station : member.stations) {
@@ -54,7 +55,7 @@ public class Dashboard extends Controller {
         }
 
         member.stations.sort((s1, s2) -> s1.name.compareToIgnoreCase(s2.name)); // Sots station in alphabetical order
-        render("dashboard.html", member);   // render dashboard.html and passes member object to template
+        render("dashboard.html", member, isDashboard);   // render dashboard.html
     }
 
 

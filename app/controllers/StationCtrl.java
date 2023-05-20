@@ -5,13 +5,19 @@ import play.mvc.Controller;
 
 import java.util.Date;
 
-
+/**
+ * Controller class for handling POST requests related to Station and Reading objects.
+ */
 public class StationCtrl extends Controller {
-
+    /**
+     * Renders "station-dashboard.html"
+     * @param id
+     */
     public static void index(Long id) {
+        boolean isDashboard = false;
         if (!session.contains("logged_in_Memberid")) { redirect("/login");}
         Station station = Station.findById(id);
-        render("station-dashboard.html", station);
+        render("station-dashboard.html", station, isDashboard);
     }
 
     // ____________________________________________  POST REQUESTS ____________________________________________

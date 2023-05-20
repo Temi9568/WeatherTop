@@ -2,10 +2,9 @@
 #{set title:"Member" /}
 #{menu id:"member"/}
 
-
-
 <div class="content box">
     <form id="edit-member-details" action="/member" class="box" method="POST">
+        <!--        Change First name-->
         <div class="columns is-centered">
             <div class="column is-two-thirds">
                 <div class="field is-horizontal">
@@ -15,18 +14,20 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <input type="text" name="firstname" placeholder=${member.firstName} value=${member.firstName} class="input" disabled required>
+                                <input type="text" name="firstname" placeholder=${member.firstName}
+                                       value=${member.firstName} class="input" disabled required>
                             </div>
                         </div>
                     </div>
                     <div class="is-centered" style="margin-left: 20px;">
-                        <button type="button"  class="button is-dark unedited">
-                            Edit Details!
+                        <button type="button" class="button is-dark unedited">
+                            Edit
                         </button>
                     </div>
                 </div>
             </div>
         </div>
+        <!--        Change last name-->
         <div class="columns is-centered">
             <div class="column is-two-thirds">
                 <div class="field is-horizontal">
@@ -36,39 +37,20 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <input type="text" name="lastname" placeholder="${member.lastName}"  value="${member.lastName}" class="input" disabled required>
+                                <input type="text" name="lastname" placeholder="${member.lastName}"
+                                       value="${member.lastName}" class="input" disabled required>
                             </div>
                         </div>
                     </div>
                     <div class="is-centered" style="margin-left: 20px;">
-                        <button type="button"  class="button is-dark unedited">
-                            Edit Details!
+                        <button type="button" class="button is-dark unedited">
+                            Edit
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="columns is-centered">
-            <div class="column is-two-thirds">
-                <div class="field is-horizontal">
-                    <div class="field-label is-normal">
-                        <label class="label">Email</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <div class="control">
-                                <input type="email" name="email" placeholder=${member.email} value=${member.email} class="input" disabled required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="is-centered" style="margin-left: 20px;">
-                        <button type="button"  class="button is-dark unedited">
-                            Edit Details!
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--        Change password-->
         <div class="columns is-centered">
             <div class="column is-two-thirds">
                 <div class="field is-horizontal">
@@ -78,19 +60,20 @@
                     <div class="field-body">
                         <div class="field">
                             <div class="control">
-                                <input type="password" name="password" placeholder="*******" class="input" disabled required>
+                                <input type="password" name="password" placeholder="*******" class="input" disabled
+                                       required>
                             </div>
                         </div>
                     </div>
                     <div class="is-centered" style="margin-left: 20px;">
                         <button type="button" class="button is-dark unedited">
-                            Edit Details!
+                            Edit
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-
+        <!--        Save changes button-->
         <div class="columns is-centered pt-50">
             <button type="submit" class="button is-success unedited" disabled>
                 Save Changes
@@ -98,55 +81,3 @@
         </div>
     </form>
 </div>
-
-
-
-
-
-<script>
-
-    const formButtons =  document.querySelector("#edit-member-details").querySelectorAll("button[type='button']");
-    const formInputs =  document.querySelector("#edit-member-details").querySelectorAll("input");
-    const submitBtn = document.querySelector("#edit-member-details").querySelector("button[type='submit']");
-
-
-    formButtons.forEach((btn, i) => {
-        btn.addEventListener("click", e => {
-            if(e.target.classList.contains("unedited")) {
-                e.target.innerText = "Save";
-                e.target.classList.replace("is-dark", "is-success");
-                e.target.classList.remove("unedited");
-                formInputs[i].disabled = false;
-            } else {
-                let valid = false;
-                if (i === 3 && formInputs[i].value !== undefined) {  // Password Field
-                    if (formInputs[i].value.length < 8 || !formInputs[i].value.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
-                        alert(`Please enter a valid password. Password must be at least 8 characters and contain one number and special character.`);
-                        formInputs[i].value = orignalPassword;
-                        submitBtn.disabled = true;
-                        return
-                    }
-                }
-                e.target.classList.replace("is-success", "is-dark");
-                formInputs[i].disabled = true;
-                e.target.classList.add("unedited");
-                e.target.innerText = "Edit Details!";
-                submitBtn.disabled = false;
-                // document.querySelector("#edit-member-details").submit();
-            }
-        })
-    })
-
-
-    document.getElementById("edit-member-details").addEventListener('submit', e => {
-        e.preventDefault();
-
-        if (confirm("Are you sure you want to save these changes?")) {
-            formInputs.forEach(elem => {elem.disabled = false;})
-            e.target.submit();
-        }
-    })
-
-
-
-</script>

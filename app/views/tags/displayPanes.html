@@ -1,89 +1,91 @@
-<div class="columns">
-        <div class="column">
-            <div class="notification is-dark" style="height:100%">
-                <p><b>${_station.name}</b></p>
-                <p style="margin:0">Lat:  ${String.format("%.3f", _station.Lat)}</p>
-                <p style="margin:0">Lng: ${String.format("%.3f", _station.Lng)}</p>
-            </div>
+<div class="columns pane">
+    <!--    LAT/LNG PANE-->
+    <div class="column">
+        <div class="notification is-dark" style="height:100%">
+            <p><b>${_station.name}</b></p>
+            <p style="margin:0">Lat: ${String.format("%.3f", _station.Lat)}</p>
+            <p style="margin:0">Lng: ${String.format("%.3f", _station.Lng)}</p>
         </div>
+    </div>
 
 
-<!--    WEATHER PANE-->
-        <div class="column">
-            <div class="notification is-dark" style="height:100%">
+    <!--    WEATHER PANE-->
+    <div class="column">
+        <div class="notification is-dark" style="height:100%">
                 <span class="icon has-text-white" style="float: right;padding-top: 1em;">
                      <i class="fa-solid fa-cloud-sun-rain fa-3x"></i>
                 </span>
-                <p><b>Weather</b></p>
-                <p>${_station.weather}</p>
-            </div>
+            <p><b>Weather</b></p>
+            <p>${_station.weather}</p>
         </div>
-
-        <div class="column">
-            <div class="notification is-dark" style="height:100%">
+    </div>
+    <!--TEMPERATURE PANE-->
+    <div class="column">
+        <div class="notification is-dark" style="height:100%">
                 <span class="icon has-text-info" style="float: right;padding-top: 1em;">
                      <i class="fa-solid fa-temperature-full fa-4x"></i>
                 </span>
-                <p><b>Temp</b></p>
-                <p style="margin:0">${String.format("%.1f", _station.tempC)}C</p>
-                <p style="margin:0">${String.format("%.1f", _station.tempF)}F</p>
-                <p style="margin:0">Max: ${String.format("%.1f", _station.max)}</p>
-                <p style="margin:0; display: inline">Min: ${String.format("%.1f", _station.min)}</p>
-                %{ if (_station.tempTrend == "up") { }%
-                <span class="icon is-large has-text-success" style="display: inline; float: right;">
+            <p><b>Temp</b></p>
+            <p style="margin:0">${String.format("%.1f", _station.tempC)}C</p>
+            <p style="margin:0">${String.format("%.1f", _station.tempF)}F</p>
+            <p style="margin:0">Max: ${String.format("%.1f", _station.max)}</p>
+            <p style="margin:0; display: inline">Min: ${String.format("%.1f", _station.min)}</p>
+            %{ if (_station.tempTrend == "up") { }%
+            <span class="icon is-large has-text-success" style="display: inline; float: right;">
                             <i class="fa-solid fa-arrow-trend-${_station.tempTrend} fa-2x"></i>
                         </span>
-                %{ } else if (_station.tempTrend == "down") { }%
-                <span class="icon is-large has-text-danger" style="display: inline; float: right;">
+            %{ } else if (_station.tempTrend == "down") { }%
+            <span class="icon is-large has-text-danger" style="display: inline; float: right;">
                             <i class="fa-solid fa-arrow-trend-${_station.tempTrend} fa-2x"></i>
                         </span>
-                %{ } }%
-            </div>
+            %{ } }%
         </div>
+    </div>
 
-
-        <div class="column">
-            <div class="notification is-dark" style="height:100%">
+    <!--WIND PANE-->
+    <div class="column">
+        <div class="notification is-dark" style="height:100%">
                  <span class="icon has-text-success" style="float: right;padding-top: 1em;">
                      <i class="fa-solid fa-wind fa-3x"></i>
                 </span>
-                <p style="margin:0"><b>Wind</b></p>
-                <p></p>
-                <p style="margin:0">${_station.windBFT} bft</p>
-                <p style="margin:0">${_station.windDirection}</p>
-                <p style="margin:0">Feels like</p>
-                <p style="margin:0">${String.format("%.1f", _station.windChill)}</p>
-                <p style="margin:0">Max: ${String.format("%.1f", _station.windMax)}</p>
-                <p style="margin:0;display: inline;">Min: ${String.format("%.1f", _station.Max)}</p>
-                %{ if (_station.windTrend == "up") { }%
-                <span class="icon is-large has-text-success" style="display: inline; float: right;">
+            <p style="margin:0"><b>Wind</b></p>
+            <p></p>
+            <p style="margin:0">${_station.windBFT} bft</p>
+            <p style="margin:0">${_station.windDirection}</p>
+            <p style="margin:0">Feels like</p>
+            <p style="margin:0">${String.format("%.1f", _station.windChill)}</p>
+            <p style="margin:0">Max: ${String.format("%.1f", _station.windMax)}</p>
+            <p style="margin:0;display: inline;">Min: ${String.format("%.1f", _station.Max)}</p>
+            %{ if (_station.windTrend == "up") { }%
+            <span class="icon is-large has-text-success" style="display: inline; float: right;">
                             <i class="fa-solid fa-arrow-trend-${_station.windTrend} fa-2x"></i>
                         </span>
-                %{ } else if (_station.windTrend == "down") { }%
-                <span class="icon is-large has-text-danger" style="display: inline; float: right;">
+            %{ } else if (_station.windTrend == "down") { }%
+            <span class="icon is-large has-text-danger" style="display: inline; float: right;">
                             <i class="fa-solid fa-arrow-trend-${_station.windTrend} fa-2x"></i>
                         </span>
-                %{ } }%
-            </div>
+            %{ } }%
         </div>
-        <div class="column">
-            <div class="notification is-dark" style="height:100%">
+    </div>
+    <!--    PRESSURE PANE-->
+    <div class="column">
+        <div class="notification is-dark" style="height:100%">
                 <span class="icon has-text-warning" style="float: right;padding-top: 1em;">
                      <i class="fa-thin fa-wpressr fa-3x"></i>
                 </span>
-                <p><b>Pressure</b></p>
-                <p style="margin:0">${_station.pressure} hpa</p>
-                <p style="margin:0">Max: ${String.format("%.1f", _station.pressureMax)}</p>
-                <p style="margin:0; display: inline;">Min: ${String.format("%.1f", _station.pressureMin)}</p>
-                %{ if (_station.pressureTrend == "up") { }%
-                <span class="icon is-large has-text-success" style="display: inline; float: right;">
+            <p><b>Pressure</b></p>
+            <p style="margin:0">${_station.pressure} hpa</p>
+            <p style="margin:0">Max: ${String.format("%.1f", _station.pressureMax)}</p>
+            <p style="margin:0; display: inline;">Min: ${String.format("%.1f", _station.pressureMin)}</p>
+            %{ if (_station.pressureTrend == "up") { }%
+            <span class="icon is-large has-text-success" style="display: inline; float: right;">
                      <i class="fa-solid fa-arrow-trend-${_station.pressureTrend} fa-2x"></i>
                 </span>
-                %{ } else if (_station.pressureTrend == "down") { }%
-                <span class="icon is-large has-text-danger" style="display: inline; float: right;">
+            %{ } else if (_station.pressureTrend == "down") { }%
+            <span class="icon is-large has-text-danger" style="display: inline; float: right;">
                      <i class="fa-solid fa-arrow-trend-${_station.pressureTrend} fa-2x"></i>
                 </span>
-                %{ } }%
-            </div>
+            %{ } }%
         </div>
     </div>
+</div>

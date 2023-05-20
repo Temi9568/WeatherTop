@@ -1,42 +1,42 @@
 #{extends 'main.html' /}
 #{set title:'Login' /}
-
 #{welcomeMenu id:"login" /}
 
 <div class="columns is-centered">
     <div class="column is-5-tablet is-4-desktop is-3-widescreen">
-        <form class="input-form" action="/authenticate" class="box" method="POST">
+        <form action="/authenticate" class="box input-form" method="POST">
+            <!--            Email field-->
             <div class="field">
                 <label class="label">Email</label>
                 <div class="control has-icons-left">
-                    <input type="email" name="email" placeholder="e.g. bobsmith@gmail.com" class="input email" required>
+                    <input class="input email" name="email" placeholder="e.g. bobsmith@gmail.com" required type="email">
                     <span class="icon is-small is-left">
-      <i class="fa fa-envelope"></i>
-    </span>
+               <i class="fa fa-envelope"></i>
+               </span>
                 </div>
             </div>
+            <!--            Password field-->
             <div class="field">
                 <label class="label">Password</label>
                 <div class="control has-icons-left">
-                    <input type="password" name="password" placeholder="*******" class="input" required>
+                    <input class="input" name="password" placeholder="*******" required type="password">
                     <span class="icon is-small is-left">
-      <i class="fa fa-lock"></i>
-    </span>
+               <i class="fa fa-lock"></i>
+               </span>
                     %{ if (!firstAttempt) { }%
-                        <div class="content has-text">
-                            <h2 style="color:red; font-size: 0.6rem; margin-top:0.75em;"><b>The username/password you entered is incorrect!</b></h2>
-                        </div>
+                    <div class="content has-text">
+                        <h2 style="color:red; font-size: 0.6rem; margin-top:0.75em;"><b>The username/password you
+                            entered is incorrect!</b></h2>
+                    </div>
                     %{ } }%
-
                 </div>
-
             </div>
-            <div class="field">
-                <button class="button is-success">
+            <!--            Submit button-->
+            <div class="fields columns is-centered pt-50" style="padding-top: 1em;">
+                <button class="button is-success" type="submit">
                     Login
                 </button>
             </div>
         </form>
     </div>
-</div>
 </div>

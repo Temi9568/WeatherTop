@@ -23,7 +23,7 @@ public class Account extends Controller {
         if (lastname != null ) {  member.lastName = lastname;}
         if (email != null ) {  member.email = email;}
         if (password != null ) {  member.password = password;}
-//        member.save();
+        member.save();
         redirect("/member");
     }
 

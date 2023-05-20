@@ -1,9 +1,10 @@
 %{
     station = _station;
+    isDashboard = _isDashboard;
 }%
 
 
-<div class="content box">
+<div id=station${station.id} class="content box station">
     <div class="station header">
         <h1 class="title is-danger" style="display: inline-block;"><a href="/station/${station.id}">${station.name}</a></h1>
         <form class="delete-form" action="/dashboard/deleteStation/${station.id}" method="POST" style="float: right;">
@@ -22,12 +23,17 @@
     <!--    Collapsible Button-->
     <div>
         <span class="icon is-large collapse-icon">
-                <i class="fa-regular fa-square-plus fa-2x"></i>
+                %{ if (isDashboard) { }%
+                    <i class="fa-regular fa-square-minus fa-2x" onclick="collapseStationPane(event, ${station.id})"></i>
+                %{ } else { }%
+                    <i class="fa-regular fa-square-plus fa-2x" onclick="collapseReadingsTable(event, ${station.id})"></i>
+                %{ } }%
             </span>
     </div>
 
 
-    <!--    READINGS TABLE-->
-    #{readings station:station/}
-
+    <!--    READINGS TABLE (ONLY DISPLAY IF NOT DASHBOARD VIEW) -->
+    %{ if (!isDashboard) { }%
+        #{readings station:station/}
+    %{ } }%
 </div>

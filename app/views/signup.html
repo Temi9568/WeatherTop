@@ -1,60 +1,62 @@
 #{extends 'main.html' /}
 #{set title:'Login' /}
-
 #{welcomeMenu id:"signup" /}
 
 <div class="columns is-centered">
     <div class="column is-5-tablet is-4-desktop is-3-widescreen">
         <form action="/register" class="box input-form" id="signup-form" method="POST">
+            <!--            First Name field-->
             <div class="field">
                 <label class="label">First Name</label>
                 <div class="control has-icons-left">
-                    <input type="firstname" name="firstname" placeholder="Bob" class="input string" required>
+                    <input type="text" class="input string" name="firstname" placeholder="Bob" required>
                     <span class="icon is-small is-left">
-                        <i class="fa fa-signature"></i>
-                    </span>
+               <i class="fa fa-signature"></i>
+               </span>
                 </div>
             </div>
+            <!--            Last name field-->
             <div class="field">
                 <label class="label">Last Name</label>
                 <div class="control has-icons-left">
-                    <input type="lastname" name="lastname" placeholder="Smith" class="input string" required>
+                    <input type="text" class="input string" name="lastname" placeholder="Smith" required>
                     <span class="icon is-small is-left">
-                        <i class="fa fa-signature"></i>
-                    </span>
+               <i class="fa fa-signature"></i>
+               </span>
                 </div>
             </div>
+            <!--            Email field-->
             <div class="field">
                 <label class="label">Email</label>
                 <div class="control has-icons-left">
-                    <input type="email" name="email" placeholder="e.g. bobsmith@gmail.com" class="input email" required>
+                    <input type="email" class="input email" name="email" placeholder="e.g. bobsmith@gmail.com" required>
                     <span class="icon is-small is-left">
-                        <i class="fa fa-envelope"></i>
-                    </span>
+               <i class="fa fa-envelope"></i>
+               </span>
                     %{ if (!firstAttempt) { }%
-                        <div id="email-exists" class="content has-text">
-                            <h2 style="color:red; font-size: 0.6rem; margin-top:0.75em"><b>The email entered already exists. Please use a different email!</b></h2>
-                        </div>
+                    <div class="content has-text" id="email-exists">
+                        <h2 style="color:red; font-size: 0.6rem; margin-top:0.75em"><b>The email entered already exists.
+                            Please use a different email!</b></h2>
+                    </div>
                     %{ } }%
                 </div>
             </div>
+            <!--            Password field-->
             <div class="field">
                 <label class="label">Password</label>
                 <div class="control has-icons-left">
-                    <input type="password" name="password" placeholder="*******" class="input password" required>
+                    <input type="password" class="input password" name="password" placeholder="*******" required>
                     <span class="icon is-small is-left">
-                      <i class="fa fa-lock"></i>
-                    </span>
+               <i class="fa fa-lock"></i>
+               </span>
                 </div>
             </div>
-            <div class="field">
-                <button class="button is-success">
+            <!--            Submit button-->
+            <div class="fields columns is-centered pt-50" style="padding-top: 1em;">
+                <button class="button is-success" type="submit">
                     Register
                 </button>
             </div>
         </form>
     </div>
 </div>
-</div>
-
-

@@ -1,18 +1,17 @@
 #{extends "main.html" /}
 #{set title:"Dashboard" /}
-
 #{menu id:"dashboard"/}
 
-
-<!--Listing each station and their readings-->
+<!--Listing each stations-->
 #{list items:member.stations, as:'station'}
-    #{station station:station/}
+#{station station:station, isDashboard:isDashboard/}
 #{/list}
 
 <!--Add station-->
 <div class="content box">
     <form class="input-form" id=addStation" action="/dashboard/addStation" method="POST">
         <div class="columns is-multiline">
+            <!--            Station name field-->
             <div class="column is-one-third">
                 <div class="field">
                     <label id="addStationName" class="label title" style="font-size: 1.5em;">Name</label>
@@ -21,31 +20,32 @@
                     </div>
                 </div>
             </div>
-
+            <!--            Latitude field-->
             <div class="column is-one-third">
                 <div class="field">
                     <label class="label title" style="font-size: 1.5em;">Lat</label>
                     <div class="control">
-                        <input class="input is-normal" type="number" step="any" name="lat" id="latInput" placeholder="00.00" required>
+                        <input class="input is-normal" type="number" step="any" name="lat" id="latInput"
+                               placeholder="00.00" required>
                     </div>
                 </div>
             </div>
-
+            <!--            Longitude field-->
             <div class="column is-one-third">
                 <div class="field">
                     <label class="label title" style="font-size: 1.5em;">Lng</label>
                     <div class="control">
-                        <input class="input is-normal" type="number" step="any" name="lng" id="lngInput" placeholder="00.00" required>
+                        <input class="input is-normal" type="number" step="any" name="lng" id="lngInput"
+                               placeholder="00.00" required>
                     </div>
                 </div>
             </div>
         </div>
-
+        <!--        Add station button-->
         <div class="field">
             <div class="control">
-                <button class="button is-link is-info is-normal">Add Station</button>
+                <button type="submit" class="button is-link is-info is-normal">Add Station</button>
             </div>
         </div>
     </form>
 </div>
-
