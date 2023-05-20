@@ -76,7 +76,7 @@ forms.forEach(form => {
         });
 
         // Password Validation
-        let passwordFields = form.querySelectorAll('input[type="password"]');
+        let passwordFields = form.querySelectorAll('input.password');
         passwordFields.forEach(elem => {
             if (elem.value.length < 8 || !elem.value.match(/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/)) {
                 alert(`Please enter a valid ${elem.name}. ${elem.name} must be at least 8 characters and contain one number and special character.`);

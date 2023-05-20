@@ -2,6 +2,9 @@ package controllers;
 
 import models.*;
 import play.mvc.Controller;
+import utils.Conversion;
+import utils.MaxMin;
+import utils.Trend;
 
 import java.util.Date;
 
@@ -20,6 +23,10 @@ public class StationCtrl extends Controller {
             redirect("/login");
         }
         Station station = Station.findById(id);
+        if (station.readings.size() >= 1) { // If no readings then unable to set additional station fields.
+            Reading r = station.readings.get(station.readings.size() - 1);  // get most recent reading
+            station = StationCtrl.setStationExtraFields(station, r);    // really shouldn't be altering LCV here
+        }
         render("station-dashboard.html", station, isDashboard);
     }
 
@@ -67,7 +74,7 @@ public class StationCtrl extends Controller {
         Reading reading = new Reading(code, temperature, windSpeed, windDirection, pressure, new Date());
         station.readings.add(reading);
         station.save();
-        redirect("/dashboard");
+        redirect("/station/" + String.valueOf(station.id));   // redirect back to same station view user was on
 
     }
 
@@ -84,7 +91,43 @@ public class StationCtrl extends Controller {
         station.readings.remove(reading);
         station.save();
         reading.delete();
-        redirect("/dashboard");
+        redirect("/station/" + String.valueOf(station.id));   // redirect back to same station view user was on
     }
 
+    /**
+     * Sets a station's extra fields/params that were not set in the consturctor
+     *
+     * @param station - Station object
+     * @param r       - Last reading (Reading)
+     * @return Station object
+     */
+    public static Station setStationExtraFields(Station station, Reading r) {
+
+        // Weather pane
+        station.weather = Conversion.convertCodeToWeather(r.code);
+
+        // Temp pane
+        station.tempC = r.temperature;  // tempC of station will be stations most recent readings temp
+        station.tempF = Conversion.convertToTempF(r.temperature);   // convert tempC to tempF
+        station.max = MaxMin.getMax(station, "t");  // get max temp (t for temp)
+        station.min = MaxMin.getMin(station, "t");  // get min temp (t for temp)
+        station.tempTrend = Trend.getStationTempTrend(station); // sets station temp trend
+
+        // Wind pane
+        station.windBFT = Conversion.convertToWindBFT(r.windSpeed); // sets station wind bft.
+        station.windDirection = Conversion.convertToWindDirectionString(r.windDirection);   // literal
+        station.windChill = Conversion.convertToWindChill(r.temperature, r.windSpeed);  // literal
+        station.windMax = MaxMin.getMax(station, "w");  // get max wind (w for wind)
+        station.windMin = MaxMin.getMin(station, "w");  // get min temp (w for wind)
+        station.windSpeed = r.windSpeed;    // wind speed of station will be stations most recent readings ws
+        station.windTrend = Trend.getStationWindTrend(station); // sets station wind trend
+
+        // Pressure pane
+        station.pressure = r.pressure;  // pressure of station will be stations most recent readings pressure
+        station.pressureMax = MaxMin.getMax(station, "p");  // get max pressure (p for pressure)
+        station.pressureMin = MaxMin.getMin(station, "p");   // get min pressure (p for pressure)
+        station.pressureTrend = Trend.getStationPressureTrend(station); // sets station pressure trend
+
+        return station;
+    }
 }

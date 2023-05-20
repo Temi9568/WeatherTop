@@ -7,17 +7,17 @@ GET     /                                       Home.index
 GET     /dashboard                              Dashboard.index
 POST    /dashboard/station/{id}/addReading      StationCtrl.addReading
 POST    /dashboard/station/{stationId}/reading/{readingId}/delete           StationCtrl.deleteReading
-POST    /dashboard/station/addStation                   StationCtrl.addStation
-POST    /dashboard/station/{id}/deleteStation/{id}           StationCtrl.deleteStation
+POST    /dashboard/station/addStation           StationCtrl.addStation
+POST    /dashboard/station/{id}/deleteStation   StationCtrl.deleteStation
+GET     /station/{id}                           StationCtrl.index
 GET     /about                                  About.index
-GET     /member                                 MemberCtrl.memberPage
+GET     /member                                 MemberCtrl.member
 POST    /member                                 MemberCtrl.editMemberDetails
 GET     /login                                  MemberCtrl.login
 POST    /authenticate                           MemberCtrl.authenticate
 GET     /logout                                 MemberCtrl.logout
 GET     /signup                                 MemberCtrl.signup
 POST    /register                               MemberCtrl.register
-GET     /station/{id}                           StationCtrl.index
 
 
 # Ignore favicon requests

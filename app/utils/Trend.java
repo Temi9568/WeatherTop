@@ -16,9 +16,9 @@ public class Trend {
         if (station.readings.size() < 3) {
             return "";
         }
-        double temp3 = station.readings.get(2).temperature;
-        double temp2 = station.readings.get(1).temperature;
-        double temp1 = station.readings.get(0).temperature;
+        double temp3 = station.readings.get(station.readings.size() - 1).temperature;
+        double temp2 = station.readings.get(station.readings.size() - 2).temperature;
+        double temp1 = station.readings.get(station.readings.size() - 3).temperature;
         if (temp3 > temp2 && temp2 > temp1) {
             return "up";
         } else if (temp3 < temp2 && temp2 < temp1) {
