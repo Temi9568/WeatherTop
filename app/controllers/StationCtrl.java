@@ -23,7 +23,7 @@ public class StationCtrl extends Controller {
             redirect("/login");
         }
         Station station = Station.findById(id);
-        if (station.readings.size() >= 1) { // If no readings then unable to set additional station fields.
+        if (station != null && station.readings.size() >= 1) { // If no readings then unable to set additional station fields.
             Reading r = station.readings.get(station.readings.size() - 1);  // get most recent reading
             station = StationCtrl.setStationExtraFields(station, r);    // really shouldn't be altering LCV here
         }
